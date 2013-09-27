@@ -22,6 +22,7 @@ Note: the above libraries appear to be very much under development and there is 
 ## Prerequisites
 
 1. CouchDB (port 5984)
+2. NPM & Bower installed globally
 
 ## Installation
 
@@ -30,12 +31,16 @@ Clone the repository locally.
 ```
 cd angular-hapi-couch
 npm install
+```
+Note: you may need to run `sudo npm install`.
+
+```
 bower install
 ```
 
-Note: you may need to run `sudo npm install`.
+When prompted for the Bootstrap version, choose 2) ~3.x.x
 
-## To run
+## Database Setup
 
 Create the database:
 
@@ -43,7 +48,15 @@ Create the database:
 grunt db
 ```
 
-Build (various tasks including compiling templates, jade files, combining the cores-ng files):
+To add test users, you can run the following grunt task. This will add 20 users to the CouchDB database. You can also do this later from the application home page.
+
+```
+grunt users
+```
+
+## Build and Run
+
+Build the application (various tasks including compiling templates, jade and stylus files, combining the cores-ng files):
 
 ```
 grunt
@@ -56,18 +69,20 @@ grunt server
 
 Browse to: [http://localhost:8080] (http://localhost:8080)
 
+You can add a set of 20 test users from the home page by clicking the **Create Users** button. Note: this option will only be available if there are no users in the database.
+
 ## Known Issues
 
-This sample application is quite incomplete and is being refactored constantly to incorporate changes and new developments in the various cores libraries. The following are what I know are incomplete/buggy:
+This sample application is quite incomplete and is being refactored constantly to incorporate changes and new developments in the various **cores** libraries. The following are what I know to be incomplete or buggy:
 
  - No thoughts have been given to security yet, i.e. restricting actions via the API.
  - Pagination in Users page - no ability to navigate to pages directly (maybe need to use offsets?).
  - Create/edit forms show validation before record is dirty (still works, just unsightly IMO).
- - Incomplete support for inut type validations, e.g. I have added a hack for email, but other formats are not yet supported.
+ - Incomplete support for inut type validations, e.g. I have added a hack for email validation, but other formats are not yet supported.
  - Not all directive templates have been converted fully to Bootstrap 3, i.e. I have only converted some model templates and String and Number.
  
-## Endnotes
+## Endnote
 
-I am very much a begginer when it comes to node, angular.js, hapi.js and couchDB - so there are no doubt fundamental mistakes in the way I have approached things. This is very much a learning exercise for me.
+I am very much a beginner when it comes to node, angular.js, hapi.js and couchDB - so there are no doubt fundamental mistakes in the way I have approached things. This is very much a learning exercise for me.
 
 A big thank you to Till for his work in this space - it is appreciated (well, at least by one person :)
