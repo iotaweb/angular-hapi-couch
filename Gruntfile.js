@@ -57,13 +57,7 @@ module.exports = function(grunt) {
                 }
             }
         }       
-        
-        //watch: {
-        //   scripts: {
-        //        files: '**/*.jade',
-        //        tasks: ['restart']
-        //    }
-        //}        
+               
     });
 
     // npm tasks
@@ -71,12 +65,14 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-concat');
     grunt.loadNpmTasks('grunt-contrib-jade');
     grunt.loadNpmTasks('grunt-contrib-stylus');
-    //grunt.loadNpmTasks('grunt-contrib-watch');
     
     // multi tasks
     grunt.registerTask('default', ['jade', 'ngtemplates', 'concat', 'stylus']);
-    grunt.registerTask('db',      ['db:create', 'db:fixtures']);
-    grunt.registerTask('server',  ['server:run']);   
+    
+    // single tasks
+    grunt.registerTask('db', 'db:create');
+    grunt.registerTask('users', 'db:fixtures');
+    grunt.registerTask('server', 'server:run');   
     
     // db tasks
     grunt.registerTask('db:create', 'create DB', function() {
