@@ -71,6 +71,12 @@ Browse to: [http://localhost:8080] (http://localhost:8080)
 
 You can add a set of 20 test users from the home page by clicking the **Create Users** button. Note: this option will only be available if there are no users in the database.
 
+## Screens
+
+Screen captures of a few pages are available here:
+
+ - [Screens] (https://github.com/iotaweb/angular-hapi-couch/wiki/Screens)
+
 ## Known Issues
 
 This sample application is quite incomplete and is being refactored constantly to incorporate changes and new developments in the various **cores** libraries. The following are what I know to be incomplete or buggy:
