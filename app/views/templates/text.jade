@@ -1,0 +1,10 @@
+div.form-group(ng-class='{ \'has-error\': hasErrors() }')
+
+    label.control-label(for='{{name}}') {{name}}:
+
+    textarea.form-control(ng-model='model')
+
+    span(ng-switch, on='getFirstError()')
+        p.help-block(ng-switch-when='required') Required 
+        p.help-block(ng-switch-when='maxLength') Value is longer than {{schema.maxLength}}
+        p.help-block(ng-switch-when='minLength') Value is shorter than {{schema.minLength}}

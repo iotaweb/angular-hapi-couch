@@ -1,0 +1,16 @@
+
+<div>
+  <label><strong>{{name}}</strong></label>
+  <div class="indent">
+    <div class="btn-group"><a data-toggle="dropdown" href="#" class="btn dropdown-toggle">Add&nbsp;<span class="caret"></span></a>
+      <ul role="menu" class="dropdown-menu">
+        <li ng-repeat="schema in schema.items.anyOf"><a ng-click="addItem(schema)">{{schema.name}}</a></li>
+      </ul>
+    </div>
+  </div>
+  <ul class="unstyled">
+    <li ng-repeat="model in model">
+      <div cr-anyof-item model="model" path="{{path}}[ {{$index}} ]"></div>
+    </li>
+  </ul>
+</div>

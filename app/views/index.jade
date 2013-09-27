@@ -1,0 +1,25 @@
+extends layout
+
+block content
+
+    div#wrap.container
+
+        include includes/nav
+
+        div(ng-view)
+
+        div#push
+
+    div#footer.container
+        include includes/footer
+
+    script(src='components/jquery/jquery.min.js')
+    script(src='components/bootstrap/dist/js/bootstrap.min.js')
+    script(src='components/angular/angular.js')
+    script(src='components/angular-route/angular-route.js')
+    script(src='lib/cores.js')
+    script(src='js/controllers.js')
+    script(src='js/directives.js')
+    script(src='js/filters.js')
+    script(src='js/services.js')
+    script(src='js/app.js')    

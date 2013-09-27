@@ -1,0 +1,10 @@
+div
+    label
+        strong {{name}}
+
+    div.indent
+        button.btn(ng-click='addItem(schema.items)') Add
+
+        ul.unstyled
+            li(ng-repeat='model in model')
+                div(cr-array-item, schema='schema.items', model='model', path='{{path}}/{{$index}}')

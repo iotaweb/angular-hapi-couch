@@ -1,0 +1,29 @@
+
+<div>
+  <p>{{view}}</p>
+  <table class="table table-hover">
+    <thead>
+      <tr>
+        <th class="text-center">No.</th>
+        <th ng-repeat="title in titles" class="capitalize">{{title}}</th>
+        <th class="text-center">View</th>
+        <th class="text-center">Edit</th>
+        <th class="text-center">Delete</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr ng-repeat="row in rows">
+        <td class="text-center">{{$index + (pageNo - 1) * limit + 1}}</td>
+        <td ng-repeat="item in row.items">{{item.value}}</td>
+        <td class="text-center"><a ng-href="/user/view/{{row.id}}" class="glyphicon glyphicon-eye-open green"></a></td>
+        <td class="text-center"><a ng-href="/user/edit/{{row.id}}" class="glyphicon glyphicon-pencil blue"></a></td>
+        <td class="text-center"><a href="" ng-click="destroy(row.id)" class="glyphicon glyphicon-remove red"></a></td>
+      </tr>
+    </tbody>
+  </table><a ng-href="/user/create" class="btn btn-default btn-primary margin-top-20"><span class="glyphicon glyphicon-plus"></span>&nbsp;Create                    </a>
+  <ul ng-show="totalPages &gt; 1" class="pagination pull-right">
+    <li ng-class="!isLoading &amp;&amp; prevKeys.length ? '' : 'disabled'"><a href="" ng-click="prev()">Prev &laquo;</a></li>
+    <li ng-repeat="page in range(totalPages) track by $index" ng-class="pageNo == $index + 1 ? 'active' : ''"><a href="" ng-click="goto($index + 1)">{{ $index + 1 }}</a></li>
+    <li ng-class="!isLoading &amp;&amp; nextKey ? '' : 'disabled'"><a href="" ng-click="next()">Next &raquo;</a></li>
+  </ul>
+</div>

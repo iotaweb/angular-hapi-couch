@@ -1,0 +1,13 @@
+div.form-group(ng-class='{ \'has-error\': hasErrors() }')
+
+    label.control-label(for='{{name}}') {{name}}:
+    input.form-control(type='number', ng-model='model', id='{{name}}')
+
+    span(ng-switch, on='getFirstError()')
+        p.help-block(ng-switch-when='required') Required
+        p.help-block(ng-switch-when='integer') Value is not an integer
+        p.help-block(ng-switch-when='multipleOf') Value is not a multiple of {{schema.multipleOf}}</p>        
+        p.help-block(ng-switch-when='minimum') Value is less than {{schema.minimum}}
+        p.help-block(ng-switch-when='maximum') Value is greater than {{schema.maximum}}
+        p.help-block(ng-switch-when='pattern') Value does not match the pattern
+        p.help-block(ng-switch-when='format') Value is no valid {{schema.format}}

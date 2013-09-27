@@ -1,0 +1,14 @@
+div.row
+
+    div.col-md-6
+        form(name='modelForm', role='form')
+        div.alert.alert-warning(ng-show='!valid') The form has errors
+        
+    div.col-md-6
+        div.well(ng-show='debug')
+            h4 Debug
+            h5 Model
+            pre {{ model | json }}
+            h5 Errors
+            ul
+                li(ng-repeat='(name, active) in errors') {{name}}: {{active}}        

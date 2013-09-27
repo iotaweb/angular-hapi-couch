@@ -1,0 +1,22 @@
+{
+  "name":       "angular-hapi-couch",
+  "version":    "0.0.0",
+  "ignore": [
+    "**/.*",
+    "lib",
+    "test",
+    "README.md",
+    "Gruntfile.js",
+    "package.json",
+    "node_modules",
+    "components"
+  ],
+  "dependencies": {
+    "angular":              "~1.2.0-rc.2",
+    "angular-route":        "~1.2.0-rc.2",
+    "bootstrap":            "~3.x.x",
+    "bootstrap-datepicker": "~1.1.2",
+    "bootstrap-timepicker": "~0.2.3",
+    "jquery":               "~2.x.x"
+  }
+}

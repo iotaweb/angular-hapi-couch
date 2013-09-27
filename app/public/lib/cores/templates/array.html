@@ -1,0 +1,12 @@
+
+<div>
+  <label><strong>{{name}}</strong></label>
+  <div class="indent">
+    <button ng-click="addItem(schema.items)" class="btn">Add</button>
+    <ul class="unstyled">
+      <li ng-repeat="model in model">
+        <div cr-array-item schema="schema.items" model="model" path="{{path}}/{{$index}}"></div>
+      </li>
+    </ul>
+  </div>
+</div>

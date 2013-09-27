@@ -1,0 +1,12 @@
+
+<div ng-class="{ 'has-error': hasErrors() }" class="form-group">
+  <label for="{{name}}" class="control-label">{{name}}:</label>
+  <input type="number" ng-model="model" id="{{name}}" class="form-control"><span ng-switch on="getFirstError()">
+    <p ng-switch-when="required" class="help-block">Required</p>
+    <p ng-switch-when="integer" class="help-block">Value is not an integer</p>
+    <p ng-switch-when="multipleOf" class="help-block">Value is not a multiple of {{schema.multipleOf}}</p>        </p>
+    <p ng-switch-when="minimum" class="help-block">Value is less than {{schema.minimum}}</p>
+    <p ng-switch-when="maximum" class="help-block">Value is greater than {{schema.maximum}}</p>
+    <p ng-switch-when="pattern" class="help-block">Value does not match the pattern</p>
+    <p ng-switch-when="format" class="help-block">Value is no valid {{schema.format}}</p></span>
+</div>

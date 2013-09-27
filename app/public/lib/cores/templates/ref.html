@@ -1,0 +1,15 @@
+
+<div>
+  <label><strong>{{name}}:</strong></label>
+  <div ng-class="{ 'has-error': hasErrors() }" class="indent control-group">
+    <div cr-ref-preview type="{{schema.$ref}}" options="{{schema.preview}}"></div><span ng-switch on="getFirstError()">
+      <p ng-switch-when="required" class="help-block">Required</p></span>
+    <div class="btn-group">
+      <button ng-click="newModel()" class="btn">New</button>
+      <button ng-show="hasModel()" ng-click="updateModel()" class="btn">Edit</button>
+      <button ng-click="selectModel()" class="btn">Select</button>
+    </div>
+  </div>
+  <div cr-model-modal modal-id="{{editModalId}}" type="{{schema.$ref}}" path="{{path}}"></div>
+  <div cr-model-list-modal modal-id="{{selectModalId}}" type="{{schema.$ref}}"></div>
+</div>

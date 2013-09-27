@@ -1,0 +1,13 @@
+div.form-group(ng-class='{ \'has-error\': hasErrors() }')
+
+    label.control-label(for='{{name}}') {{name}}:
+    div.input-append
+        input.form-control.input-xlarge(type='text', ng-model='model', id='{{name}}')
+        a.btn.btn-default(ng-click='generate()') Generate
+
+    span(ng-switch, on='getFirstError()')
+        p.help-block(ng-switch-when='required') Required
+        p.help-block(ng-switch-when='maxLength') Value is longer than {{schema.maxLength}}
+        p.help-block(ng-switch-when='minLength') Value is shorter than {{schema.minLength}}
+        p.help-block(ng-switch-when='pattern') Value does not match the pattern
+        //- p.help-block(ng-switch-when='format') Value is no valid {{schema.format}}

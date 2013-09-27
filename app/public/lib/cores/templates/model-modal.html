@@ -1,0 +1,18 @@
+
+<div id="{{modalId}}" tabindex="-1" role="dialog" class="modal hide fade">
+  <div class="modal-header">
+    <button data-dismiss="modal" class="close">x</button>
+    <h3>{{type}}</h3>
+  </div>
+  <div ng-switch on="data.state" class="modal-body">
+    <div ng-switch-when="loading" class="alert alert-info">Loading&hellip;</div>
+    <div ng-switch-when="saving" class="alert alert-info">Saving&hellip;</div>
+    <div ng-switch-default cr-model-form schema="schema" model="model" valid="data.valid" path="{{path}}"></div>
+  </div>
+  <div class="modal-footer">
+    <div class="btn-toolbar">
+      <button ng-click="save()" ng-class="{ disabled: !data.valid }" class="btn btn-primary pull-left">Save</button>
+      <button ng-click="cancel()" data-dismiss="modal" class="btn pull-right">Cancel</button>
+    </div>
+  </div>
+</div>

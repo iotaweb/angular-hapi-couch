@@ -1,0 +1,33 @@
+div
+    p {{view}}
+
+    table.table.table-hover
+        thead
+            tr
+                th.text-center No.
+                th.capitalize(ng-repeat='title in titles') {{title}}
+                th.text-center View
+                th.text-center Edit
+                th.text-center Delete
+        tbody
+            tr(ng-repeat='row in rows')
+                td.text-center {{$index + (pageNo - 1) * limit + 1}}
+                td(ng-repeat='item in row.items') {{item.value}}
+                td.text-center
+                    a.glyphicon.glyphicon-eye-open.green(ng-href='/user/view/{{row.id}}')
+                td.text-center
+                    a.glyphicon.glyphicon-pencil.blue(ng-href='/user/edit/{{row.id}}')
+                td.text-center
+                    a.glyphicon.glyphicon-remove.red(href='', ng-click='destroy(row.id)')
+                    
+    a.btn.btn-default.btn-primary.margin-top-20(ng-href='/user/create')
+        span.glyphicon.glyphicon-plus
+        | &nbsp;Create                    
+    
+    ul.pagination.pull-right(ng-show='totalPages > 1')
+        li(ng-class='!isLoading && prevKeys.length ? \'\' : \'disabled\'')
+            a(href='', ng-click='prev()') Prev &laquo;
+        li(ng-repeat='page in range(totalPages) track by $index', ng-class='pageNo == $index + 1 ? \'active\' : \'\'')
+            a(href='', ng-click='goto($index + 1)') {{ $index + 1 }}
+        li(ng-class='!isLoading && nextKey ? \'\' : \'disabled\'')
+            a(href='', ng-click='next()') Next &raquo;

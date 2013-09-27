@@ -1,0 +1,25 @@
+{
+  "name": "angular-hapi-couch",
+  "version": "0.0.0",
+  "description": "Application using angular.js, hapi.js API server and CouchDB for resources",
+  "main": "index.js",
+  "scripts": {
+    "start": "grunt server",
+    "test": "grunt test"
+  },
+  "repository": "git://github.com/iotaweb/angular-hapi-couch.git",
+  "author": "Rob Anderson",
+  "license": "BSD",
+  "dependencies": {
+    "cores-server": "0.1.1",
+    "grunt": "~0.4.1",
+    "grunt-angular-templates": "~0.3.8",
+    "grunt-contrib-concat": "~0.3.0",
+    "grunt-contrib-jade": "~0.8.0",
+    "grunt-contrib-stylus": "~0.8.0",
+    "grunt-contrib-watch": "~0.5.3",
+    "jade": "*",
+    "jski": "~0.3.1",
+    "nano": "~4.1.3"
+  }
+}
