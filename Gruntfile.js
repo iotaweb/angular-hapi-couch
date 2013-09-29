@@ -20,7 +20,18 @@ module.exports = function(grunt) {
                     ext: '.html'
                 }]
             }
-        },    
+        }, 
+        
+        stylus: {
+            compile: {
+                options: {
+                    pretty: true  
+                },
+                files: {
+                    'app/public/css/styles.css': 'app/views/styles/styles.styl'
+                }
+            }
+        },           
     
         ngtemplates: {
             cores: {
@@ -47,16 +58,20 @@ module.exports = function(grunt) {
             }
         },
         
-        stylus: {
-            compile: {
-                options: {
-                    pretty: true  
-                },
-                files: {
-                    'app/public/css/styles.css': 'app/views/styles/styles.styl'
-                }
+        watch: {
+            styles: {
+                files: ['app/views/styles/*.styl'],
+                tasks: ['stylus']                 
+            },
+            cores: {
+                files: ['app/public/lib/cores/*.js'],
+                tasks: ['concat']                
+            },
+            templates: {
+                files: ['app/views/templates/*.jade'],
+                tasks: ['jade', 'ngtemplates', 'concat']         
             }
-        }       
+        }               
                
     });
 
@@ -65,9 +80,10 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-concat');
     grunt.loadNpmTasks('grunt-contrib-jade');
     grunt.loadNpmTasks('grunt-contrib-stylus');
+    grunt.loadNpmTasks('grunt-contrib-watch');
     
     // multi tasks
-    grunt.registerTask('default', ['jade', 'ngtemplates', 'concat', 'stylus']);
+    grunt.registerTask('default', ['jade', 'stylus', 'ngtemplates', 'concat']);
     
     // single tasks
     grunt.registerTask('db', 'db:create');
@@ -128,6 +144,6 @@ module.exports = function(grunt) {
             }
         });
         // never call done to run endlessly
-    });      
+    });     
 
 };

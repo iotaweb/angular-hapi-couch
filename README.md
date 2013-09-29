@@ -71,6 +71,18 @@ Browse to: [http://localhost:8080] (http://localhost:8080)
 
 You can add a set of 20 test users from the home page by clicking the **Create Users** button. Note: this option will only be available if there are no users in the database.
 
+## Watch
+
+In development you can run the following to watch for changes to jade, stylus and templates:
+
+```
+grunt watch
+```
+
+Note: you will still need to stop and start your web server to see these changes in the browser. It just saves you having to manually recompile everything with `grunt` when your code changes.
+
+TODO: setup watch on Hapi server.
+
 ## Screens
 
 Screen captures of a few pages are available here:
@@ -82,7 +94,7 @@ Screen captures of a few pages are available here:
 This sample application is quite incomplete and is being refactored constantly to incorporate changes and new developments in the various **cores** libraries. The following are what I know to be incomplete or buggy:
 
  - No thoughts have been given to security yet, i.e. restricting actions via the API.
- - Pagination in Users page - no ability to navigate to pages directly (maybe need to use offsets?).
+ - Pagination in Users page - no ability to navigate to pages directly. Also would be nice if pages were represented in the url path and could handle a page refresh, e.g. users/page/2 (maybe need to use `offset` instead of `startkey`?).
  - Create/edit forms show validation before record is dirty (still works, just unsightly IMO).
  - Incomplete support for inut type validations, e.g. I have added a hack for email validation, but other formats are not yet supported.
  - Not all directive templates have been converted fully to Bootstrap 3, i.e. I have only converted some model templates and String and Number.

@@ -58,7 +58,7 @@ function configureServer(server, callback) {
         var db = nano.use(dbName);            
         var users = require('../test/fixtures/users.json');        
     
-        // add date for testing
+        // add test users
         db.bulk(users, function (err, body) {   
             if (err) {
                 console.log('ERROR', err);
