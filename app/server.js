@@ -6,8 +6,11 @@ var
     path            = require('path');
     
 var 
-    dbName          = 'angular-hapi-couch';     
-    
+    host            = 'localhost';
+    port            = 8080;
+    dbName          = 'angular-hapi-couch';    
+
+
 function configureServer(server, callback) {
 
     server.on('response', function(req) {
@@ -109,11 +112,9 @@ function configureServer(server, callback) {
 
 module.exports = function setupServer(callback) {
 
-    var host = 'localhost';
-    var port = 8080;
+    var options = {};
 
-    // Hapi options
-    var options = {
+    options.hapi = {
         cors: {
             origin: ['*'],
             headers: ['X-Requested-With', 'Content-Type']
@@ -134,24 +135,27 @@ module.exports = function setupServer(callback) {
             compileOptions: {
                 pretty: true
             }
-        }        
+        }
     };
-  
-    coresServer({
+    
+    options.cores = {
         server: {
             host: host,
             port: port,
-            options: options  
+            options: options.hapi  
         },
         db: {
-            name: 'angular-hapi-couch'
+            name: dbName
         },
-        resourcesDir: __dirname + '/models',
+        resourcesDir: path.join(__dirname, 'models'),
         apiPath: '/cores'
-    }).then(
+    };
+  
+    coresServer(options.cores).then(
         function(server) {
 
             configureServer(server, callback);
+            console.log('Hapi server started on %s',options.hapi.location);            
         }, function(err) {
     
             callback(err);

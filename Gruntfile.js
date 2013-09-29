@@ -5,7 +5,7 @@ var dbName  = 'angular-hapi-couch';
 module.exports = function(grunt) {
 
     grunt.initConfig({
-  
+
         jade: {
             compile: {
                 options: {
@@ -20,19 +20,19 @@ module.exports = function(grunt) {
                     ext: '.html'
                 }]
             }
-        }, 
-        
+        },
+
         stylus: {
             compile: {
                 options: {
-                    pretty: true  
+                    pretty: true
                 },
                 files: {
                     'app/public/css/styles.css': 'app/views/styles/styles.styl'
                 }
             }
-        },           
-    
+        },
+
         ngtemplates: {
             cores: {
                 src: 'app/public/lib/cores/templates/*.html',
@@ -44,9 +44,9 @@ module.exports = function(grunt) {
                 }
             }
         },
-    
+
         concat: {
-            cores: {                
+            cores: {
                 src: [  // order matters!
                     'app/public/lib/cores/index.js',
                     'app/public/lib/cores/templates/templates.js',
@@ -57,22 +57,22 @@ module.exports = function(grunt) {
                 dest: 'app/public/lib/cores.js'
             }
         },
-        
+
         watch: {
             styles: {
-                files: ['app/views/styles/*.styl'],
-                tasks: ['stylus']                 
+                files: 'app/views/styles/*.styl',
+                tasks: 'stylus'
             },
             cores: {
-                files: ['app/public/lib/cores/*.js'],
-                tasks: ['concat']                
+                files: 'app/public/lib/cores/*.js',
+                tasks: 'concat'
             },
             templates: {
-                files: ['app/views/templates/*.jade'],
-                tasks: ['jade', 'ngtemplates', 'concat']         
+                files: 'app/views/templates/*.jade',
+                tasks: ['jade', 'ngtemplates', 'concat']
             }
-        }               
-               
+        }
+
     });
 
     // npm tasks
@@ -81,27 +81,27 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-jade');
     grunt.loadNpmTasks('grunt-contrib-stylus');
     grunt.loadNpmTasks('grunt-contrib-watch');
-    
+
     // multi tasks
     grunt.registerTask('default', ['jade', 'stylus', 'ngtemplates', 'concat']);
-    
+
     // single tasks
     grunt.registerTask('db', 'db:create');
     grunt.registerTask('users', 'db:fixtures');
-    grunt.registerTask('server', 'server:run');   
-    
+    grunt.registerTask('server', 'server:run');
+
     // db tasks
     grunt.registerTask('db:create', 'create DB', function() {
-    
+
         var done = this.async();
-    
+
         // create db for testing
         nano.db.get(dbName, function(err, body) {
-        
+
             if (!err) {
                 // db exists, recreate
                 nano.db.destroy(dbName, function(err) {
-                
+
                     if (err) {
                         done(err);
                     }
@@ -110,7 +110,7 @@ module.exports = function(grunt) {
             } else if (err.reason === 'no_db_file') {
                 // create the db
                 nano.db.create(dbName, done);
-                
+
             } else {
                 done(err);
             }
@@ -118,32 +118,35 @@ module.exports = function(grunt) {
     });
 
     grunt.registerTask('db:fixtures', 'populate DB', function() {
-    
-        var done = this.async();   
+
+        var done = this.async();
         var db = nano.use(dbName);
-        var users = require('./test/fixtures/users.json');        
-    
-        // add date for testing
-        db.bulk(users, function (err, body) {   
+        var users = require('./test/fixtures/users.json');
+
+        // add test users
+        db.bulk(users, function (err, body) {
+
             if(err) {
                 done(err);
             }
         });
-    });    
-    
+    });
+
     // server tasks
     grunt.registerTask('server:run', 'start server', function() {
-    
+
         var done = this.async();
         var startServer = require('./app/server.js');
-        
+
         startServer(function(err) {
-        
+
             if (err) {
                 console.log(err);
             }
         });
+
         // never call done to run endlessly
-    });     
+
+    });
 
 };
