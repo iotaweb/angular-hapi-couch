@@ -1,8 +1,0 @@
-
-<div ng-class="{ 'has-error': hasErrors() }" class="form-group">
-  <label for="{{name}}" class="control-label">{{name}}:</label>
-  <textarea ng-model="model" class="form-control"></textarea><span ng-switch on="getFirstError()">
-    <p ng-switch-when="required" class="help-block">Required </p>
-    <p ng-switch-when="maxLength" class="help-block">Value is longer than {{schema.maxLength}}</p>
-    <p ng-switch-when="minLength" class="help-block">Value is shorter than {{schema.minLength}}</p></span>
-</div>
