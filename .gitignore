@@ -1,5 +1,5 @@
 .DS_Store
-/app/public/components/
+/app/public/components
 /app/public/lib/cores.js
-/app/public/lib/cores/templates/
-/node_modules/
+/app/public/lib/cores/templates
+/node_modules
