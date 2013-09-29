@@ -12,7 +12,9 @@ div
 
         div.col-md-6(ng-switch-when='editing')
             button.btn.btn-primary.margin-right-10(ng-click='save()', ng-class='{ disabled: !data.valid }') Save
-            button.btn.btn-danger.pull-right(ng-click='destroy()', ng-show='!isNew()') Delete
+            button.btn.btn-danger.pull-right(ng-click='destroy()', ng-show='!isNew()')
+                span.glyphicon.glyphicon-remove
+                | &nbsp;Delete            
             button.btn.pull-right.pull-right.margin-right-10(ng-click='toggleDebug()') Debug             
             
         div.col-md-6       
