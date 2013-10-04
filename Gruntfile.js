@@ -45,7 +45,16 @@ module.exports = function(grunt) {
             }
         },
 
-        concat: {
+        concat: {       
+            components: {
+                src: [
+                    'app/public/components/jquery/jquery.js',
+                    'app/public/components/bootstrap/dist/js/bootstrap.js',
+                    'app/public/components/angular/angular.js',
+                    'app/public/components/angular-route/angular-route.js'
+                ],
+                dest: 'app/public/components/components.js'
+            },
             cores: {
                 src: [  // order matters!
                     'app/public/lib/cores/index.js',
@@ -55,16 +64,63 @@ module.exports = function(grunt) {
                     'app/public/lib/cores/directives/*.js'
                 ],
                 dest: 'app/public/lib/cores.js'
+            },
+            app: {             
+                src: [
+                    'app/public/js/app.js',
+                    'app/public/js/controllers.js',
+                    'app/public/js/directives.js',
+                    'app/public/js/filters.js',
+                    'app/public/js/services.js'
+                ],
+                dest: 'app/public/js/main.js',
+                options: {
+                    // Replace all 'use strict' statements with a single one at the top
+                    banner: "'use strict';\n\n",
+                    process: function(src, filepath) {
+                        return '/* ---------- Source: ' + filepath + ' ----------- */\n\n' + 
+                        src.replace(/(^|\n)[ \t]*('use strict'|"use strict");?\s*/g, '$1') + '\n';
+                    }
+                }                
             }
         },
-
+        
+        ngmin: {
+            cores: {
+                src: 'app/public/lib/cores.js',
+                dest: 'app/public/lib/cores.js'
+            },
+            app: {
+                src: 'app/public/js/main.js',
+                dest: 'app/public/js/main.js'
+            }
+        },
+        
+        uglify: {
+            components: {
+                files: {
+                    'app/public/components/components.min.js': ['app/public/components/components.js']
+                }
+            },
+            cores: {
+                files: {
+                    'app/public/lib/cores.min.js': ['app/public/lib/cores.js']
+                }
+            },
+            main: {
+                files: {
+                    'app/public/js/main.min.js': ['app/public/js/main.js']
+                }
+            }
+        },
+                  
         watch: {
             styles: {
                 files: 'app/views/styles/*.styl',
                 tasks: 'stylus'
             },
             cores: {
-                files: 'app/public/lib/cores/*.js',
+                files: 'app/public/lib/cores/**/*.js',
                 tasks: 'concat'
             },
             templates: {
@@ -77,13 +133,16 @@ module.exports = function(grunt) {
 
     // npm tasks
     grunt.loadNpmTasks('grunt-angular-templates');
+    grunt.loadNpmTasks('grunt-ngmin');    
     grunt.loadNpmTasks('grunt-contrib-concat');
     grunt.loadNpmTasks('grunt-contrib-jade');
     grunt.loadNpmTasks('grunt-contrib-stylus');
+    grunt.loadNpmTasks('grunt-contrib-uglify');
     grunt.loadNpmTasks('grunt-contrib-watch');
 
     // multi tasks
     grunt.registerTask('default', ['jade', 'stylus', 'ngtemplates', 'concat']);
+    //grunt.registerTask('min', ['jade', 'stylus', 'ngtemplates', 'concat', 'ngmin', 'uglify']);
 
     // single tasks
     grunt.registerTask('db', 'db:create');
