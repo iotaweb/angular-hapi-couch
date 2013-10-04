@@ -53,11 +53,7 @@
     $scope.isNew = function() {
       if (!$scope.model) return true;
       return !$scope.model._rev;
-    };
-    
-    $scope.goBack = function() {
-        $window.history.back();
-    };    
+    };   
 
     //
     // methods

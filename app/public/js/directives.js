@@ -1,16 +1,26 @@
 'use strict';
 
-// Directives
-
-var app = angular.module('myApp.directives', []);
+var directives = angular.module('myApp.directives', []);
 
 
-//! currentYear     elem(current-year)
-app.directive('currentYear', function() {
+//! currentYear     element(current-year)
+directives.directive('currentYear', function() {
     
-    return function(scope, elm, attrs) {
+    return function(scope, element, attrs) {
     
         var year = new Date().getFullYear();        
-        elm.append(year);
+        element.append(year);
+    };
+});
+
+//! go back in history
+directives.directive('historyBack', function($window) {
+    
+    return function(scope, element, attrs) {
+        
+        element.on('click', function() {
+        
+            $window.history.back();
+        });
     };
 });
