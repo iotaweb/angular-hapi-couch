@@ -3,3 +3,5 @@
 /app/public/lib/cores.js
 /app/public/lib/cores/templates
 /node_modules
+*.min.js
+/app/public/js/main.js
