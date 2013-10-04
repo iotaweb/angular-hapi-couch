@@ -12,14 +12,18 @@
   "license": "BSD",
   "dependencies": {
     "cores-server": "0.1.1",
+    "jade": "*",
+    "jski": "~0.3.1"
+  },
+  "devDependencies": {
     "grunt": "~0.4.1",
     "grunt-angular-templates": "~0.3.8",
     "grunt-contrib-concat": "~0.3.0",
     "grunt-contrib-jade": "~0.8.0",
+    "grunt-ngmin": "0.0.3",    
     "grunt-contrib-stylus": "~0.8.0",
+    "grunt-contrib-uglify": "~0.2.4",
     "grunt-contrib-watch": "~0.5.3",
-    "jade": "*",
-    "jski": "~0.3.1",
     "nano": "~4.1.3"
   }
 }
