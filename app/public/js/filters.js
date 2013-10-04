@@ -1,5 +1,3 @@
 'use strict';
 
-// Filters
-
-var app = angular.module('myApp.filters', []);
+var filters = angular.module('myApp.filters', []);

@@ -1,11 +1,9 @@
 'use strict';
 
-// Services
-
-var app = angular.module('myApp.services', []);
+var services = angular.module('myApp.services', []);
 
 //! responseHandler
-app.factory('responseHandler', function ($q, $location) {
+services.factory('responseHandler', function ($q, $location) {
     
     function success(response) {
                 
