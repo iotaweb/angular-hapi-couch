@@ -1,12 +1,10 @@
-'use strict'
+'use strict';
 
-// Controllers
-
-var app = angular.module('myApp.controllers', []);
+var controllers = angular.module('myApp.controllers', []);
 
 
 //! IndexController
-app.controller('IndexController', function($scope, crResources) {
+controllers.controller('IndexCtrl', function($scope, crResources) {
 
     $scope.type = 'User';
     
@@ -23,14 +21,13 @@ app.controller('IndexController', function($scope, crResources) {
                 $scope.users = true;
                 $scope.names = result.rows;             
             }           
-    });
-                       
+    });                       
 });
 
 
 //! UserController
-app.controller('UserController', function($scope, $routeParams, $window, crResources) {  
-
+controllers.controller('UserCtrl', function($scope, $routeParams, $window, crResources) {  
+    
     $scope.type = 'User';
     $scope.modelId = $routeParams.id; 
     $scope.headers = [
@@ -61,17 +58,12 @@ app.controller('UserController', function($scope, $routeParams, $window, crResou
             function (doc) {             
                 $scope.user = doc;
             }        
-        );  
-        
-    $scope.goBack = function() {
-        $window.history.back();
-    };          
-                             
+        );                                  
 });
 
 
 //! 404Controller
-app.controller('404Controller', function ($scope, $location) {
- 
+controllers.controller('404Ctrl', function ($scope, $location) {
+     
     $scope.url = $location.path();
 });
