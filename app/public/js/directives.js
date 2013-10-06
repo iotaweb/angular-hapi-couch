@@ -2,7 +2,7 @@
 
 angular.module('myApp.directives', [])
 
-    //! currentYear     element(current-year)
+    //! currentYear
     .directive('currentYear', function() {
         
         return function(scope, element, attrs) {
@@ -12,7 +12,7 @@ angular.module('myApp.directives', [])
         };
     })
     
-    //! go back in history
+    //! historyBack
     .directive('historyBack', function($window) {
         
         return function(scope, element, attrs) {

@@ -2,7 +2,7 @@
 
 angular.module('myApp.controllers', [])
 
-    //! IndexController
+    //! IndexCtrl
     .controller('IndexCtrl', function($scope, crResources) {
     
         $scope.type = 'User';
@@ -24,7 +24,7 @@ angular.module('myApp.controllers', [])
     })
     
     
-    //! UserController
+    //! UserCtrl
     .controller('UserCtrl', function($scope, $routeParams, $window, crResources) {  
         
         $scope.type = 'User';
@@ -61,7 +61,7 @@ angular.module('myApp.controllers', [])
     })
     
     
-    //! 404Controller
+    //! 404Ctrl
     .controller('404Ctrl', function ($scope, $location) {
          
         $scope.url = $location.path();
