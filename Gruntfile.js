@@ -49,9 +49,11 @@ module.exports = function(grunt) {
             components: {
                 src: [
                     'app/public/components/jquery/jquery.js',
-                    'app/public/components/bootstrap/dist/js/bootstrap.js',
                     'app/public/components/angular/angular.js',
-                    'app/public/components/angular-route/angular-route.js'
+                    'app/public/components/angular-route/angular-route.js',                    
+                    'app/public/components/bootstrap/dist/js/bootstrap.js',
+                    'app/public/components/markdown/lib/markdown.js',
+                    'app/public/components/jquery-autosize/jquery-autosize.js'
                 ],
                 dest: 'app/public/components/components.js'
             },
