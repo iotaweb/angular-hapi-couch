@@ -3,19 +3,24 @@ var
     fs              = require('fs'),
     jade            = require('jade'),
     nano            = require('nano')('http://localhost:5984'), 
-    path            = require('path');
+    path            = require('path'),
+    common          = require('./lib/common');
     
 var 
-    host            = 'localhost';
-    port            = 8080;
-    dbName          = 'angular-hapi-couch';    
+    host            = 'localhost',
+    port            = 8080,
+    dbName          = 'angular-hapi-couch';   
 
 
 function configureServer(server, callback) {
 
     server.on('response', function(req) {
     
-        console.log(req.method, req.path, req.raw.res.statusCode);
+        console.log('%s %s %s',
+            req.raw.res.statusCode, 
+            common.pad(req.method.toUpperCase(), 6),
+            req.path
+        );
     });
 
     server.on('internalError', function(req, error) {
@@ -50,7 +55,10 @@ function configureServer(server, callback) {
         if (path == '404') {
             request.reply.view(partial).code(404);
         } else {
-            request.reply.view(partial); 
+            request.reply.view(partial)
+                .header('Cache-Control', 'no-cache, no-store, must-revalidate')
+                .header('Pragma', 'no-cache')
+                .header('Expires', 0) ; 
         }
            
     }; 
@@ -107,6 +115,35 @@ function configureServer(server, callback) {
         }
         server.start(callback);
     });
+    
+    // image resource handlers    
+    function imageHandler(payload) {
+    
+        var doc = payload;
+        
+        if (payload.isMultipart) {
+            var numFiles = parseInt(payload.numFiles, 10);
+            console.log('isMultipart, numFiles', numFiles);
+            for (var i = 0; i < numFiles; ++i) {
+                console.log('file', i, payload['file' + i]);
+            }
+            doc = payload.doc;
+        }
+        console.log('doc', doc);
+        return doc;
+    };
+    
+    server.app.api.addHandler('create', 'Image', function(payload) {
+    
+        console.log('create image');
+        return imageHandler(payload);
+    });
+    
+    server.app.api.addHandler('update', 'Image', function(payload) {
+    
+        console.log('update image');
+        return imageHandler(payload);
+    });    
 }
 
 
@@ -155,7 +192,7 @@ module.exports = function setupServer(callback) {
         function(server) {
 
             configureServer(server, callback);
-            console.log('Hapi server started on %s',options.hapi.location);            
+            console.log('\nHapi server started on %s\n',options.hapi.location);            
         }, function(err) {
     
             callback(err);

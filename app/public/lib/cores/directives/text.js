@@ -3,7 +3,7 @@
   var module = angular.module('cores.directives');
 
 
-  module.directive('crText', function(crCommon, crValidation) {
+  module.directive('crText', function(crCommon, crFieldLink, crValidation) {
     return {
       scope: {
         model: '=',
@@ -15,26 +15,37 @@
       replace: true,
       templateUrl: 'cr-text.html',
 
-      link: function(scope, elem, attrs) {
+      link: crFieldLink(function(scope, elem, attrs) {
 
         var validation = crValidation(scope);
 
-        validation.addConstraint('maxLength', function(value) {
-          return value.length <= scope.schema.maxLength;
-        });
+        validation.addConstraint(
+          'maxLength',
+          'Text is longer than ' + scope.schema.maxLength,
+          function(value) {
+            return value.length <= scope.schema.maxLength;
+          });
 
-        validation.addConstraint('minLength', function(value) {
-          return value.length >= scope.schema.minLength;
-        });
+        validation.addConstraint(
+          'minLength',
+          'Text is shorter than ' + scope.schema.minLength,
+          function(value) {
+            return value.length >= scope.schema.minLength;
+          });
 
-        if (attrs.isRequired === 'true') {
-          validation.addConstraint('required', function(value) {
+        validation.addConstraint(
+          'pattern',
+          'Text does not match the pattern',
+          function(value) {
+            return new RegExp(scope.schema.pattern).test(value);
+          });
+
+        if (scope.options.isRequired) {
+          validation.addConstraint('required', 'Required', function(value) {
             return !!value && value !== '';
           }, true);
         }
-
-        scope.$emit('ready');
-      }
+      })
     };
   });
 

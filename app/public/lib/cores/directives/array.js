@@ -18,8 +18,8 @@
 
       link: function(scope, elem, attrs) {
 
-        var tmpl = crBuild(scope.schema, scope.model, 'schema', 'model', scope.path,
-                           { mode: 'minimal' });
+        var tmpl = crBuild.buildTemplate(scope.schema, scope.model, 'schema', 'model', scope.path,
+                                         { showLabel: false, indentProperties: false });
 
         var link = $compile(tmpl);
         var e = link(scope);
@@ -29,7 +29,7 @@
   });
 
 
-  module.directive('crArray', function(crSchema) {
+  module.directive('crArray', function(crSchema, crFieldLink) {
     return {
       scope: {
         model: '=',
@@ -43,7 +43,7 @@
 
       controller: 'crArrayCtrl',
 
-      link: function(scope, elem, attrs) {
+      link: crFieldLink(function(scope, elem, attrs) {
         // ngrepeat can only bind to references when it comes to form fields
         // thats why we can only work with items of type object not primitives
         // this may change in a feature release
@@ -51,7 +51,7 @@
             !crSchema.isRefSchema(scope.schema.items)) {
           throw new Error('Array items schema is not of type object: ' + JSON.stringify(scope.schema.items));
         }
-      }
+      })
     };
   });
 })();

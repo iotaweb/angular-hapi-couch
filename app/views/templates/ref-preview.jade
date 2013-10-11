@@ -1,1 +1,2 @@
-p {{ model[options] }}
+p
+    strong {{ model | crJsonPointer:options.previewPath }}

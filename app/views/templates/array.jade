@@ -1,8 +1,9 @@
 div
-    label
-        strong {{name}}
 
-    div.indent
+    label.control-label(ng-show='options.showLabel') {{name}}:
+
+    div.cr-indent
+    
         button.btn(ng-click='addItem(schema.items)') Add
 
         ul.unstyled

@@ -139,15 +139,15 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-stylus');
     grunt.loadNpmTasks('grunt-contrib-uglify');
     grunt.loadNpmTasks('grunt-contrib-watch');
-
+    
+    // single tasks
+    grunt.registerTask('db', 'db:create');
+    grunt.registerTask('server', 'server:run');
+    
     // multi tasks
     grunt.registerTask('default', ['jade', 'stylus', 'ngtemplates', 'concat']);
     //grunt.registerTask('min', ['jade', 'stylus', 'ngtemplates', 'concat', 'ngmin', 'uglify']);
-
-    // single tasks
-    grunt.registerTask('db', 'db:create');
-    grunt.registerTask('users', 'db:fixtures');
-    grunt.registerTask('server', 'server:run');
+    grunt.registerTask('users', ['db', 'db:fixtures']);    
 
     // db tasks
     grunt.registerTask('db:create', 'create DB', function() {

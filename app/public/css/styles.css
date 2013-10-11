@@ -1,17 +1,31 @@
 html,body{height:100%}
-#wrap{min-height:100%;height:auto !important;height:100%;margin:0 auto -80px}
-#push,#footer{height:80px}
-#footer{padding:0 20px}
-[cr-model-list-filter] select{width:100px;margin:0 0 15px 0}
-[cr-anyof-item],[cr-array-item]{position:relative}
-[cr-anyof-item] hr,[cr-array-item] hr{margin:10px 0}
-[cr-image-preview] img{max-height:64px;min-width:64px;margin-top:8px}
-[cr-image] img{float:left;display:block;background-color:#ddd;max-height:140px;min-width:140px;margin-right:12px}
 a.red{color:#d2322d}
 a.blue{color:#428bca}
 a.green{color:#47a447}
 a.glyphicon:hover{text-decoration:none}
+#wrap{min-height:100%;height:auto !important;height:100%;margin:0 auto -80px}
+#push,#footer{height:80px}
+#footer{padding:0 20px}
+[cr-anyof-item],[cr-array-item]{position:relative}
+[cr-anyof-item] hr,[cr-array-item] hr{margin:10px 0}
+[cr-image-preview] img{max-height:64px;min-width:64px;margin-top:8px}
+[cr-image]{overflow:hidden}
+[cr-image] img{float:left;display:block;background-color:#ddd;max-height:140px;min-width:140px;margin-right:12px}
+[cr-tab-object] .tab-content{overflow:visible}
+[cr-slug] input[type=text]{text-transform:lowercase}
 [cr-model-list] .pagination > .disabled > span,[cr-model-list] .pagination > .disabled > a,[cr-model-list] .pagination > .disabled > a:hover,[cr-model-list] .pagination > .disabled > a:focus{cursor:default}
+[cr-model-list-filter] select{width:100px;margin:0 0 15px 0}
+.cr-array-item,.cr-anyof-item{position:relative;margin:15px 0;background-color:#fff;border:1px solid #ddd;border-radius:4px}
+.cr-array-item{padding:12px 19px 8px}
+.cr-anyof-item{padding:34px 19px 8px}
+.cr-anyof-item .cr-object-label{position:absolute;top:-1px;left:-1px;padding:3px 7px;font-size:12px;font-weight:bold;background-color:#f5f5f5;border:1px solid #ddd;color:#9da0a4;border-radius:4px 0 4px 0}
+.cr-item-controls{position:absolute;top:-1px;right:-1px}
+.cr-item-controls .btn-group{margin-right:8px}
+.cr-indent{padding-left:12px;margin-bottom:10px;border-left:1px solid #eee}
+.cr-debug,.cr-editor{border:1px solid #ccc;border-radius:4px;padding:12px;overflow:hidden}
+.cr-editor-area{display:block;width:100%;box-shadow:none;border-style:none;border-color:transparent;overflow:auto;}
+.cr-editor-area -moz-box-sizing border-box{box-sizing:border-box}
+.cr-editor-preview{display:none}
 .well pre{background:#fff}
 .item-controls{position:absolute;top:0;right:0}
 .item-controls .btn-group{margin-right:8px}

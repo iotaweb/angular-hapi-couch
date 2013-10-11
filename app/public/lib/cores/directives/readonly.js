@@ -3,7 +3,7 @@
   var module = angular.module('cores.directives');
 
 
-  module.directive('crBoolean', function() {
+  module.directive('crReadonly', function(crFieldLink) {
     return {
       scope: {
         model: '=',
@@ -13,7 +13,10 @@
       },
 
       replace: true,
-      templateUrl: 'cr-boolean.html'
+      templateUrl: 'cr-readonly.html',
+
+      link: crFieldLink(function(scope, elem, attrs) {
+      })
     };
   });
 })();

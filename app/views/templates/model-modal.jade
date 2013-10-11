@@ -1,15 +1,30 @@
-div.modal.hide.fade(id='{{modalId}}', tabindex='-1', role='dialog')
+div.modal.hide
 
-    div.modal-header
-        button.close(data-dismiss='modal') x
-        h3 {{type}}
+    div.modal-dialog
 
-    div.modal-body(ng-switch, on='data.state')
-        div.alert.alert-info(ng-switch-when='loading') Loading&hellip;
-        div.alert.alert-info(ng-switch-when='saving') Saving&hellip;
-        div(ng-switch-default, cr-model-form, schema='schema', model='model', valid='data.valid',  path='{{path}}')
+        div.modal-content
 
-    div.modal-footer
-        div.btn-toolbar
-            button.btn.btn-primary.pull-left(ng-click='save()', ng-class='{ disabled: !data.valid }') Save
-            button.btn.pull-right(ng-click='cancel()', data-dismiss='modal') Cancel
+            div.modal-header
+
+                button.close(data-dismiss='modal') x
+                h4.modal-title {{type}}
+        
+            div.modal-body(ng-switch, on='data.state')
+            
+                div(cr-model-form, schema='schema', model='model', valid='data.valid', debug='data.debug')
+                
+                div(ng-switch, on='data.state')
+            
+                    div.alert.alert-info(ng-switch-when='loading') Loading&hellip;
+                    div.alert.alert-info(ng-switch-when='saving') Saving&hellip;
+                    div.alert.alert-error(ng-switch-when='error')
+                        h4 ERROR
+                        pre {{ data.error | json }}
+                                
+            div.modal-footer
+            
+                div(ng-show='data.state == \'editing\'')
+                
+                    button.btn.btn-primary.pull-left(ng-click='save()', ng-class='{ disabled: !data.valid }') Save
+                    button.btn.pull-right(ng-click='cancel()', data-dismiss='modal') Cancel
+                    button.btn.pull-right.margin-right-10(ng-click='toggleDebug()') Debug

@@ -3,27 +3,32 @@
   var module = angular.module('cores.directives');
 
 
-  module.directive('crSingleSelectRef', function(crValidation, crResources, crCommon) {
+  module.directive('crSingleSelectRef', function(
+    crFieldLink,
+    crValidation,
+    crResources,
+    crCommon,
+    crJSONPointer
+  ) {
     return {
       scope: {
         model: '=',
         schema: '=',
         name: '@',
-        path: '@',
-        previewPath: '@'
+        path: '@'
       },
 
       replace: true,
       templateUrl: 'cr-single-select-ref.html',
 
-      link: function(scope, elem, attrs) {
+      link: crFieldLink(function(scope, elem, attrs) {
 
         scope.rows = [];
 
         // validation
         var validation = crValidation(scope, 'model.id_');
-        if (attrs.isRequired === 'true') {
-          validation.addConstraint('required', function(value) {
+        if (scope.options.isRequired) {
+          validation.addConstraint('required', 'Required', function(value) {
             return !!scope.model.id_;
           }, true);
         }
@@ -38,7 +43,7 @@
             scope.rows = result.rows.map(function(row) {
               var r = {
                 id: row.id,
-                name: crCommon.jsonPointer(row.doc, scope.previewPath)
+                name: crJSONPointer.get(row.doc, scope.options.previewPath)
               };
               if (scope.model.id_ && r.id === scope.model.id_) {
                 scope.selectedRow = r;
@@ -58,25 +63,29 @@
             scope.model.id_ = newValue.id;
           }
         });
-      }
+      })
     };
   });
 
 
-  module.directive('crMultiSelectRef', function(crResources, crCommon) {
+  module.directive('crMultiSelectRef', function(
+    crFieldLink,
+    crResources,
+    crCommon,
+    crJSONPointer
+  ) {
     return {
       scope: {
         model: '=',
         schema: '=',
         name: '@',
-        path: '@',
-        previewPath: '@'
+        path: '@'
       },
 
       replace: true,
       templateUrl: 'cr-multi-select-ref.html',
 
-      link: function(scope, elem, attrs) {
+      link: crFieldLink(function(scope, elem, attrs) {
 
         scope.rows = [];
 
@@ -85,13 +94,15 @@
           if (!scope.schema.items.$ref) return;
           unwatch();
 
-          crResources.get(scope.schema.items.$ref).view('all', { include_docs: true }).then(function(result) {
+          crResources.get(scope.schema.items.$ref).view(
+            'all', { include_docs: true }
+          ).then(function(result) {
             // create rows
             scope.rows = result.rows.map(function(row) {
               var r = {
                 id: row.id,
                 selected: false,
-                name: crCommon.jsonPointer(row.doc, scope.previewPath)
+                name: crJSONPointer.get(row.doc, scope.options.previewPath)
               };
               return r;
             });
@@ -114,19 +125,18 @@
             return { id_: row.id };
           });
         }, true);
-      }
+      })
     };
   });
 
 
-  module.directive('crRef', function($timeout, crCommon, crValidation) {
+  module.directive('crRef', function($timeout, crCommon, crFieldLink, crValidation) {
     return {
       scope: {
         model: '=',
         schema: '=',
         name: '@',
-        path: '@',
-        previewPath: '@'
+        path: '@'
       },
 
       replace: true,
@@ -148,10 +158,10 @@
       },
 
 
-      link: function(scope, elem, attrs) {
+      link: crFieldLink(function(scope, elem, attrs) {
 
-        scope.editModalId = crCommon.getModalId();
-        scope.selectModalId = crCommon.getModalId();
+        scope.editModalId = crCommon.createModalId();
+        scope.selectModalId = crCommon.createModalId();
 
         // scope methods
         scope.newModel = function() {
@@ -172,8 +182,8 @@
 
         // validation
         var validation = crValidation(scope, 'model.id_');
-        if (attrs.isRequired === 'true') {
-          validation.addConstraint('required', function(value) {
+        if (scope.options.isRequired) {
+          validation.addConstraint('required', 'Required', function(value) {
             return !!scope.model.id_;
           }, true);
         }
@@ -181,9 +191,8 @@
         // delay to give the preview time to initialize
         $timeout(function() {
           scope.$broadcast('update:preview', scope.model.id_);
-          scope.$emit('ready');
         });
-      }
+      })
     };
   });
 
@@ -192,7 +201,7 @@
     return {
       scope: {
         type: '@',
-        previewPath: '@'
+        options: '='
       },
 
       replace: true,

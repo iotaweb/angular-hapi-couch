@@ -1,18 +1,15 @@
-div
-    label
-        strong {{name}}:
+div.form-group(ng-class='{ \'has-error\': hasErrors() }')
 
-    div.indent.control-group(ng-class='{ \'has-error\': hasErrors() }')
+    label.control-label(ng-show='options.showLabel') {{name}}:
     
-        div(cr-ref-preview, type='{{schema.$ref}}', options='{{schema.preview}}')
-        
-        span(ng-switch, on='getFirstError()')
-            p.help-block(ng-switch-when='required') Required
+    div(cr-ref-preview, type='{{schema.$ref}}', options='{{schema.preview}}')
 
-        div.btn-group
-            button.btn(ng-click='newModel()') New
-            button.btn(ng-show='hasModel()', ng-click='updateModel()') Edit
-            button.btn(ng-click='selectModel()') Select
+    div.btn-group
+        button.btn.btn-sm(ng-click='newModel()') New
+        button.btn.btn-sm(ng-show='hasModel()', ng-click='updateModel()') Edit
+        button.btn.btn-sm(ng-click='selectModel()') Select
+        p.help-block(ng-show='hasErrors()') {{ getFirstError() }}
 
-    div(cr-model-modal, modal-id='{{editModalId}}', type='{{schema.$ref}}', path='{{path}}')
+    div(cr-model-modal, modal-id='{{editModalId}}', type='{{schema.$ref}}', path='{{path}}', defaults='options.defaults')
+    
     div(cr-model-list-modal, modal-id='{{selectModalId}}', type='{{schema.$ref}}')

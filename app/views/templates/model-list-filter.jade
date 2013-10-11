@@ -1,5 +1,8 @@
 form.form-inline(role='form')
+
     div.form-group.pull-right
-        label(for='formFilter') Filter:&nbsp; 
+    
+        label(for='formFilter') Filter:&nbsp;
+        
         select.form-control.input-sm(id='formFilter', ng-model='selectedView', ng-options='v.title for v in views')
             option(value='') Default

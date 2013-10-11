@@ -9,7 +9,7 @@
 
       watchExpr = watchExpr || 'model';
 
-      // client side errors
+      // clientside errors
       var errors = {};
       // serverside errors
       var customErrors = {};
@@ -27,18 +27,18 @@
       };
 
 
-      scope.getFirstError = function(name) {
+      scope.getFirstError = function() {
         for (var x in errors) {
-          if (errors[x]) return x;
+          if (errors[x]) return errors[x];
         }
         for (var y in customErrors) {
-          if (customErrors[y]) return y;
+          if (customErrors[y]) return customErrors[y];
         }
       };
 
 
-      var setError = function(name) {
-        errors[name] = true;
+      var setError = function(name, message) {
+        errors[name] = message;
         scope.$emit('set:error', scope.path + ':' + name);
       };
 
@@ -51,8 +51,8 @@
       };
 
 
-      var setCustomError = function(name) {
-        customErrors[name] = true;
+      var setCustomError = function(name, message) {
+        customErrors[name] = message;
         scope.$emit('set:error', scope.path + ':' + name);
       };
 
@@ -72,20 +72,20 @@
       };
 
 
-      var addConstraint = function(name, condition, isCustomConstraint) {
+      var addConstraint = function(name, message, condition, isCustomConstraint) {
         // only check constraints that are defined in the schema
         if (!isCustomConstraint &&
             !scope.schema.hasOwnProperty(name)) return;
 
         constraints.push(function(value) {
-          condition(value) ? removeError(name) : setError(name);
+          condition(value) ? removeError(name) : setError(name, message);
         });
       };
 
 
       scope.$on('set:customError', function(e, path, code, message) {
         if (path === scope.path) {
-          setCustomError(code);
+          setCustomError(code, message);
           return true;
         }
       });

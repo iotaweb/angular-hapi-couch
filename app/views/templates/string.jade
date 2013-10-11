@@ -4,9 +4,4 @@ div.form-group(ng-class='{ \'has-error\': hasErrors() }')
 
     input.form-control(type='text', ng-model='model', id='{{name}}', placeholder='{{name}}')
 
-    span(ng-switch, on='getFirstError()')
-        p.help-block(ng-switch-when='required') Required
-        p.help-block(ng-switch-when='maxLength') Value is longer than {{schema.maxLength}}
-        p.help-block(ng-switch-when='minLength') Value is shorter than {{schema.minLength}}
-        p.help-block(ng-switch-when='pattern') Value does not match the pattern
-        p.help-block(ng-switch-when='format') Value is not a valid {{schema.format}}
+    p.help-block(ng-show='hasErrors()') {{ getFirstError() }}

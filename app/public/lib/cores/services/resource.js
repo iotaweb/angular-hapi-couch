@@ -5,7 +5,6 @@
   //
   // Create an error object from a response
   //
-
   function makeError(response) {
 
     var msg = response.msg || '';
@@ -30,7 +29,6 @@
   //
   // crResource
   //
-
   module.factory('crResource', function($http, $q, $rootScope) {
 
     var Resource = function(type, config, host) {
@@ -59,7 +57,6 @@
     //
     // Get a resource schema
     //
-
     Resource.prototype.schema = function() {
 
       return $http.get(this.schemaPath).then(
@@ -72,7 +69,6 @@
     //
     // Load a resource from the server
     //
-
     Resource.prototype.load = function(id, params) {
 
       var path = this.path;
@@ -98,7 +94,6 @@
     //
     // Save/update a resource on the server
     //
-
     Resource.prototype.save = function(doc, files) {
 
       doc = JSON.parse(JSON.stringify(doc));
@@ -107,6 +102,8 @@
         files = [files];
       }
       var isMultipart = false;
+      var docId = doc._id;
+      var docRev = doc._rev;
 
       // create multipart formdata when saving files
 
@@ -114,7 +111,6 @@
         var fd = new FormData();
         fd.append('type_', this.type);
         fd.append('doc', JSON.stringify(doc));
-        // fd.append('file', file);
 
         files.forEach(function(file, i) {
           fd.append('file' + i, file);
@@ -122,8 +118,8 @@
         fd.append('numFiles', files.length);
 
         // when updating, add the id and rev
-        if (doc._id)  fd.append('_id', doc._id);
-        if (doc._rev) fd.append('_rev', doc._rev);
+        if (docId)  fd.append('_id', docId);
+        if (docRev) fd.append('_rev', docRev);
 
         doc = fd;
         isMultipart = true;
@@ -134,16 +130,15 @@
         method: 'POST',
         data: doc
       };
-
-      if (doc._id && doc._rev) {
+      if (docId && docRev) {
         // update
         req.method = 'PUT';
-        req.url += '/' + doc._id + '/' + doc._rev;
+        req.url += '/' + docId + '/' + docRev;
       }
-      else if (doc._id) {
-        // new with id
+      else if (docId) {
+        // create with id
         req.method = 'PUT';
-        req.url += '/' + doc._id;
+        req.url += '/' + docId;
       }
 
       if (isMultipart) {
@@ -159,7 +154,6 @@
 
 
     Resource.prototype._sendMultipart = function(req) {
-
       var def = $q.defer();
 
       // send multipart manually with xhr for now, $http seems to have problems with it
@@ -173,7 +167,7 @@
           def.resolve(data);
         }
         else {
-          def.reject(makeError(data));
+          def.reject(makeError({code: xhr.status, data: data}));
         }
         // call apply, because we are outside the angular life-cycle
         $rootScope.$apply();
@@ -189,7 +183,6 @@
     //
     // Delete a resource on the server
     //
-
     Resource.prototype.destroy = function(doc) {
 
       if (!doc._id || !doc._rev) {
@@ -205,7 +198,6 @@
     //
     // Call a couchdb view
     //
-
     Resource.prototype.view = function(name, params) {
 
       var path = this.viewPaths[name];
@@ -238,7 +230,6 @@
   //
   // crResource
   //
-
   module.service('crResources', function($http, $q, $rootScope, crResource) {
 
 

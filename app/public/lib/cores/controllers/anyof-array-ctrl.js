@@ -5,10 +5,6 @@
 
   module.controller('crAnyofArrayCtrl', function($injector, $controller, $scope, crSchema) {
 
-
-    // $injector.invoke(ArrayCtrl, this, { $scope: $scope });
-    // $injector.invoke('crArrayCtrl', this, { $scope: $scope });
-
     // inherit from ArrayCtrl
     $controller('crArrayCtrl', { $scope: $scope });
 

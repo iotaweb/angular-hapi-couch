@@ -2,11 +2,12 @@
 
   var module = angular.module('cores.directives');
 
+
   module.directive('crModelModal', function() {
     return {
       scope: {
         type: '@',
-        path: '@',
+        defaults: '=?',
         modalId: '@'
       },
 
@@ -15,7 +16,8 @@
 
       controller: 'crModelCtrl',
 
-      link: function(scope, elem) {
+
+      link: function(scope, elem, attrs) {
 
         scope.$on('model:saved', function() {
           // close on save

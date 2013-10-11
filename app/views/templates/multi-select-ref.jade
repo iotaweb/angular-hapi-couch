@@ -1,0 +1,10 @@
+div.form-group(ng-class='{ \'has-error\': hasErrors() }')
+
+    label(ng-show='options.showLabel') {{name}}:</label>
+
+    ul.unstyled
+        li(ng-repeat='row in rows')
+            label.checkbox {{row.name}}
+                input(type='checkbox', ng-model='row.selected')
+
+      p.help-block(ng-show='hasErrors()') {{ getFirstError() }}

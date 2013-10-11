@@ -4,7 +4,17 @@ footerHeight = 80px
 // The html and body elements cannot have any padding or margin
 html
 body
-    height 100%    
+    height 100%
+
+a
+    &.red
+        color #d2322d
+    &.blue
+        color #428bca
+    &.green
+        color #47a447
+    &.glyphicon:hover
+        text-decoration none
 
 // Wrapper for page content to push down footer
 #wrap
@@ -20,15 +30,6 @@ body
 #footer
     padding 0px 20px
 
-[cr-model-list-filter]
-    select
-        width 100px
-        margin 0 0 15px 0
-
-textarea
-input[type="text"]
-input[type="number"]
-    /* width: 100%; */
 
 [cr-anyof-item]
 [cr-array-item]
@@ -43,6 +44,9 @@ input[type="number"]
     min-width 64px
     margin-top 8px
 
+[cr-image]
+    overflow hidden
+
 [cr-image] img
     float left
     display block
@@ -50,16 +54,12 @@ input[type="number"]
     max-height 140px
     min-width 140px
     margin-right 12px
-    
-a
-    &.red
-        color #d2322d
-    &.blue
-        color #428bca
-    &.green
-        color #47a447
-    &.glyphicon:hover
-        text-decoration none   
+
+[cr-tab-object] .tab-content
+    overflow visible
+
+[cr-slug] input[type=text]
+    text-transform lowercase
 
 [cr-model-list]
     .pagination > .disabled > span
@@ -67,7 +67,73 @@ a
     .pagination > .disabled > a:hover
     .pagination > .disabled > a:focus
         cursor default
-    
+
+[cr-model-list-filter]
+    select
+        width 100px
+        margin 0 0 15px 0
+
+.cr-array-item
+.cr-anyof-item
+    position relative
+    margin 15px 0
+    background-color #fff
+    border 1px solid #ddd
+    border-radius 4px
+
+.cr-array-item
+    padding 12px 19px 8px
+
+.cr-anyof-item
+    padding: 34px 19px 8px
+
+
+.cr-anyof-item .cr-object-label
+    position absolute
+    top -1px
+    left -1px
+    padding 3px 7px
+    font-size 12px
+    font-weight bold
+    background-color #f5f5f5
+    border 1px solid #ddd
+    color #9da0a4
+    border-radius 4px 0 4px 0
+
+.cr-item-controls
+    position absolute
+    top -1px
+    right -1px
+
+.cr-item-controls .btn-group
+    margin-right 8px
+
+.cr-indent
+    padding-left 12px
+    margin-bottom:10px
+    border-left 1px solid #eee
+
+.cr-debug
+.cr-editor
+    border 1px solid #ccc
+    border-radius 4px
+    padding 12px
+    overflow hidden
+
+.cr-editor-area
+    display block
+    width 100%
+    box-shadow none
+    border-style none
+    border-color transparent
+    overflow auto
+    -moz-box-sizing border-box
+         box-sizing border-box
+
+
+.cr-editor-preview
+    display none
+
 .well pre
     background #fff
 
@@ -92,7 +158,6 @@ a
 
 .margin-top-20
     margin-top 20px
-    
-.capitalize {
-    text-transform: capitalize;    
-}
+
+.capitalize
+    text-transform capitalize

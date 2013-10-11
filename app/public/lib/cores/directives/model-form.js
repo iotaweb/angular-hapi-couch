@@ -9,8 +9,7 @@
         model: '=',
         schema: '=',
         valid: '=',
-        debug: '=',
-        path: '@'
+        debug: '='
       },
 
       replace: true,
@@ -53,8 +52,8 @@
             childScope.$destroy();
           }
           // create markup
-          var tmpl = crBuild(scope.schema, scope.model, 'schema', 'model',
-                             scope.path || '', { mode: 'minimal'});
+          var tmpl = crBuild.buildTemplate(scope.schema, scope.model, 'schema', 'model',
+                                           '', { showLabel: false, indentProperties: false });
 
           // compile and link with new scope
           childScope = scope.$new();

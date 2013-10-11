@@ -1,3 +1,5 @@
 span
-    label {{name}}:
-    select(ng-model='model', ng-options='e for e in schema.enum')
+
+    label.control-label(for='{{name}}', ng-show='options.showLabel') {{name}}:
+    
+    select(ng-model='model', ng-options='e for e in schema.enum', id='{{name}}')

@@ -26,22 +26,5 @@
       if (index >= $scope.model.length) return;
       $scope.model.splice(index + 1, 0, $scope.model.splice(index, 1)[0]);
     });
-
-    // wait for ready event of items on initialization
-
-    var numItems = $scope.model.length;
-
-    if (numItems === 0) {
-      $scope.$emit('ready');
-    }
-    else {
-      var off = $scope.$on('ready', function(e) {
-        e.stopPropagation();
-        if (--numItems === 0) {
-          off();
-          $scope.$emit('ready');
-        }
-      });
-    }
   });
 })();

@@ -10,7 +10,7 @@ angular.module('myApp.controllers', [])
         var resource = crResources.get($scope.type);
             
         resource
-            .view('names', { limit: 20 })
+            .view('names', { limit: 50 })
             .then(function success(result) {
     
                 if (result.total_rows === 0) {

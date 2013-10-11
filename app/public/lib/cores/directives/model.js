@@ -7,8 +7,8 @@
     return {
       scope: {
         type: '@',
-        path: '@',
-        modelId: '='
+        modelId: '=',
+        defaults: '=?'
       },
 
       replace: true,

@@ -2,8 +2,8 @@
 
   var module = angular.module('cores.directives');
 
-  
-  module.directive('crDatetime', function() {
+
+  module.directive('crDatetime', function(crFieldLink, crValidation) {
     return {
       scope: {
         model: '=',
@@ -15,10 +15,17 @@
       replace: true,
       templateUrl: 'cr-datetime.html',
 
-      link: function(scope, elem, attrs) {
+      link: crFieldLink(function(scope, elem, attrs) {
+
+        var validation = crValidation(scope);
+        if (scope.options.isRequired) {
+          validation.addConstraint('required', 'Required', function(value) {
+            return !!value && value !== '';
+          }, true);
+        }
 
         var date = new Date();
-        
+
         if (scope.model && scope.model !== '') {
           // get date from model
           date = new Date(scope.model);
@@ -32,14 +39,14 @@
           todayHighlight: true
         });
         datepicker.datepicker('update', date);
-        
+
         var timepicker = elem.find('.time').timepicker({
-          minuteStep: 15,
+          minuteStep: 5,
           defaultTime: date.getHours() + ':' + date.getMinutes(),
           showMeridian: false,
           showSeconds: false
         });
-        
+
         datepicker.on('changeDate', function(e) {
           e.stopPropagation();
 
@@ -60,9 +67,7 @@
           scope.model = date.toISOString();
           scope.$apply();
         });
-        
-        scope.$emit('ready');
-      }
+      })
     };
   });
 })();

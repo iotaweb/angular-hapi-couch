@@ -3,29 +3,29 @@
   var module = angular.module('cores.directives');
 
 
-  module.directive('crImage', function($compile, crCommon, crValidation) {
+  module.directive('crImage', function($compile, crCommon, crFieldLink, crValidation) {
     return {
       scope: {
         model: '=',
         schema: '=',
-        name: '@'
+        name: '@',
+        path: '@'
       },
 
       replace: true,
       templateUrl: 'cr-image.html',
 
 
-      link: function(scope, elem, attrs) {
+      link: crFieldLink(function(scope, elem, attrs) {
 
         var validation = crValidation(scope, 'model.name');
-
-        if (attrs.isRequired === 'true') {
-          validation.addConstraint('required', function(value) {
+        if (scope.options.isRequired) {
+          validation.addConstraint('required', 'Required', function(value) {
             return !!scope.model.name && scope.model.name !== '';
           }, true);
         }
 
-        var fileId = crCommon.getFileId();
+        var fileId = crCommon.createFileId();
 
         var input = elem.find('input[type="file"]');
         var preview = elem.find('img');
@@ -58,35 +58,8 @@
           scope.$emit('file:set', fileId, file);
           scope.$apply();
         });
-
-        scope.$emit('ready');
-      }
+      })
     };
   });
-
-
-  // module.directive('crImageRefPreview', function() {
-  //   return {
-  //     scope: {
-  //       model: '=',
-  //       file: '='
-  //     },
-
-  //     replace: true,
-  //     templateUrl: 'cr-image-preview.html',
-
-  //     link: function(scope, elem, attr) {
-  //       scope.$watch('file', function(file) {
-  //         if (file) {
-  //           var fr = new FileReader();
-  //           fr.onload = function(e) {
-  //             elem.find('img').attr('src', e.target.result);
-  //           };
-  //           fr.readAsDataURL(file);
-  //         }
-  //       });
-  //     }
-  //   };
-  // });
 
 })();

@@ -1,3 +1,5 @@
-div.checkbox
-    label {{name}}
-    input(type='checkbox', ng-model='model')
+span
+
+    label.control-label.checkbox(for='{{name}}') {{name}}
+    
+        input(type='checkbox', ng-model='model')

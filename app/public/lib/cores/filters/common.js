@@ -2,11 +2,11 @@
 
   var module = angular.module('cores.filters');
 
-  module.filter('crJsonPointer', function(crCommon) {
+  module.filter('crJsonPointer', function(crCommon, crJSONPointer) {
 
     return function(input, path) {
       if (!input) return null;
-      return crCommon.jsonPointer(input, path);
+      return crJSONPointer.get(input, path);
     };
   });
 

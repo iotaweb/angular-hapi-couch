@@ -1,16 +1,15 @@
 div
-    label
-        strong {{name}}
 
-    div.indent
+    label.control-label(ng-show='options.showLabel') {{name}}:
 
-        div.btn-group
-            a.btn.dropdown-toggle(data-toggle='dropdown', href='#') Add&nbsp;
-                span.caret
+    div.btn-group
+    
+        a.btn.dropdown-toggle(data-toggle='dropdown', href='#') Add
+            span.caret
 
-            ul.dropdown-menu(role='menu')
-                li(ng-repeat='schema in schema.items.anyOf')
-                    a(ng-click='addItem(schema)') {{schema.name}}
+        ul.dropdown-menu(role='menu')
+            li(ng-repeat='schema in schema.items.anyOf')
+                a(ng-click='addItem(schema)') {{schema.name}}
 
     ul.unstyled
         li(ng-repeat='model in model')

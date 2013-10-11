@@ -13,7 +13,7 @@
       },
 
       replace: true,
-      templateUrl: 'cr-array-item.html',
+      templateUrl: 'cr-anyof-array-item.html',
 
       controller: 'crArrayItemCtrl',
 
@@ -22,8 +22,8 @@
         scope.schema = anyof.getSchema(scope.model.type_);
         scope.array = anyof;
 
-        var tmpl = crBuild(scope.schema, scope.model, 'schema', 'model', scope.path,
-                           { 'mode': 'minimal' });
+        var tmpl = crBuild.buildTemplate(scope.schema, scope.model, 'schema', 'model', scope.path,
+                                         { indentProperties: false });
         var link = $compile(tmpl);
         var e = link(scope);
         elem.append(e);
@@ -32,7 +32,7 @@
   });
 
 
-  module.directive('crAnyofArray', function($compile) {
+  module.directive('crAnyofArray', function($compile, crFieldLink) {
     return {
       scope: {
         model: '=',
@@ -46,9 +46,9 @@
 
       controller: 'crAnyofArrayCtrl',
 
-      link: function(scope, elem, attrs) {
+      link: crFieldLink(function(scope, elem, attrs) {
         elem.find('.dropdown-toggle').dropdown();
-      }
+      })
     };
   });
 })();

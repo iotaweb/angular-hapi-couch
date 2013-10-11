@@ -2,7 +2,7 @@
 
   var module = angular.module('cores.directives');
 
-  module.directive('crPassword', function(crValidation) {
+  module.directive('crPassword', function(crFieldLink, crValidation) {
     return {
       scope: {
         model: '=',
@@ -14,20 +14,26 @@
       replace: true,
       templateUrl: 'cr-password.html',
 
-      link: function(scope, elem, attrs) {
+      link: crFieldLink(function(scope, elem, attrs) {
 
         var validation = crValidation(scope);
 
-        validation.addConstraint('maxLength', function(value) {
-          return value.length <= scope.schema.maxLength;
-        });
+        validation.addConstraint(
+          'maxLength',
+          'Password is longer than ' + scope.schema.maxLength,
+          function(value) {
+            return value.length <= scope.schema.maxLength;
+          });
 
-        validation.addConstraint('minLength', function(value) {
-          return value.length >= scope.schema.minLength;
-        });
+        validation.addConstraint(
+          'minLength',
+          'Password is shorter than ' + scope.schema.minLength,
+          function(value) {
+            return value.length >= scope.schema.minLength;
+          });
 
-        if (attrs.isRequired === 'true') {
-          validation.addConstraint('required', function(value) {
+        if (scope.options.isRequired) {
+          validation.addConstraint('required', 'Required', function(value) {
             return value && value !== '';
           }, true);
         }
@@ -49,7 +55,7 @@
           }
           else {
             scope.model = oldPass;
-            validation.setError('match');
+            validation.setError('match', 'Passwords do not match');
           }
         };
 
@@ -60,9 +66,7 @@
         scope.$watch('pass2', function(newValue) {
           compareValue(newValue, scope.pass1);
         });
-
-        scope.$emit('ready');
-      }
+      })
     };
   });
 

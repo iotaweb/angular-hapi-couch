@@ -2,19 +2,25 @@
 
   var module = angular.module('cores.services');
 
-  // Get a new file id
-  var getFileId = (function(id) {
+  // Create a new file id
+  var createFileId = (function(id) {
     return function() { return 'file' + ++id; };
   })(0);
 
 
-  // Get a new modal id
-  var getModalId = (function(id) {
+  // Create a new modal id
+  var createModalId = (function(id) {
     return function() { return 'modal-' + ++id; };
   })(0);
 
 
-  var createSlug = function(str) {
+  // Create a new object id
+  var createObjectId = (function(id) {
+    return function() { return 'object-' + ++id; };
+  })(0);
+
+
+  var slugify = function(str) {
     str = str.replace(/^\s+|\s+$/g, ''); // trim
     str = str.toLowerCase();
 
@@ -44,20 +50,8 @@
   };
 
 
-  var jsonPointer = function(obj, path) {
-    // TODO: array paths
-    if (!path) return obj;
-    var parts = path.split('/');
-    if (parts.length && parts[0] === '') parts.shift();
-    if (parts.length && parts[parts.length - 1] === '') parts.pop();
-    if (parts.length === 0) return obj;
-
-    var value = obj[parts[0]];
-    for (var i = 1; i < parts.length; ++i) {
-      if (!value) break;
-      value = value[parts[i]];
-    }
-    return value;
+  var trim = function(str) {
+    return this.replace(/^\s+|\s+$/g, '');
   };
   
   var getPathFromType = function(type) {
@@ -77,13 +71,12 @@
   module.service('crCommon', function($q) {
 
     return {
-      getFileId: getFileId,
-      getModalId: getModalId,
+      createFileId: createFileId,
+      createModalId: createModalId,
+      createObjectId: createObjectId,
 
-      createSlug: createSlug,
+      slugify: slugify,
       capitalize: capitalize,
-
-      jsonPointer: jsonPointer,
 
       merge: merge,
 

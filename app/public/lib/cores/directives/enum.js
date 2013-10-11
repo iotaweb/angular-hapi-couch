@@ -3,7 +3,7 @@
   var module = angular.module('cores.directives');
 
 
-  module.directive('crEnum', function() {
+  module.directive('crEnum', function(crFieldLink) {
     return {
       scope: {
         model: '=',
@@ -15,9 +15,8 @@
       replace: true,
       templateUrl: 'cr-enum.html',
 
-      link: function(scope) {
-        scope.$emit('ready');
-      }
+      link: crFieldLink(function(scope, elem, attrs) {
+      })
     };
   });
 

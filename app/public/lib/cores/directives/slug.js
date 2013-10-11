@@ -3,60 +3,68 @@
   var module = angular.module('cores.directives');
 
 
-  module.directive('crSlug', function(crCommon, crValidation) {
+  module.directive('crSlug', function(crCommon, crFieldLink, crValidation) {
     return {
       scope: {
         model: '=',
         schema: '=',
         name: '@',
-        path: '@',
-        source: '@'
+        path: '@'
       },
 
       replace: true,
       templateUrl: 'cr-slug.html',
 
-      link: function(scope, elem, attrs) {
+      link: crFieldLink(function(scope, elem, attrs) {
 
         var validation = crValidation(scope);
 
-        validation.addConstraint('maxLength', function(value) {
-          return value.length <= scope.schema.maxLength;
-        });
+        validation.addConstraint(
+          'maxLength',
+          'Slug is longer than ' + scope.schema.maxLength,
+          function(value) {
+            return value.length <= scope.schema.maxLength;
+          });
 
-        validation.addConstraint('minLength', function(value) {
-          return value.length >= scope.schema.minLength;
-        });
+        validation.addConstraint(
+          'minLength',
+          'Slug is shorter than ' + scope.schema.minLength,
+          function(value) {
+            return value.length >= scope.schema.minLength;
+          });
 
-        validation.addConstraint('pattern', function(value) {
-          return new RegExp(scope.schema.pattern).test(value);
-        });
+        validation.addConstraint(
+          'pattern',
+          'Slug does not match the pattern',
+          function(value) {
+            return new RegExp(scope.schema.pattern).test(value);
+          });
 
-        // validation.addConstraint('format', function(value) {
-        //   throw new Error('not implemented');
-        //   return false;
-        // });
-
-        if (attrs.isRequired === 'true') {
-          validation.addConstraint('required', function(value) {
+        if (scope.options.isRequired) {
+          validation.addConstraint('required', 'Required', function(value) {
             return !!value && value !== '';
           }, true);
         }
 
 
         scope.generate = function() {
-
-          var sources = scope.source ? scope.source.split(',') : "";
+          var sources = [];
           var val = '';
+
+          // allow single string or array of strings for source option
+          if (typeof scope.options.source === 'string') {
+            sources = [scope.options.source];
+          }
+          else if (angular.isArray(scope.options.source)) {
+            sources = scope.options.source;
+          }
 
           angular.forEach(sources, function(src) {
             val += (val !== '' ? '-' : '') + scope.$parent.model[src];
           });
-          scope.model = crCommon.createSlug(val);
+          scope.model = crCommon.slugify(val);
         };
-
-        scope.$emit('ready');
-      }
+      })
     };
   });
 

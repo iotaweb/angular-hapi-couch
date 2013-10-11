@@ -1,5 +1,5 @@
 div
-    div(cr-model-form, schema='schema', model='model', valid='data.valid', debug='data.debug', path='{{ path }}')
+    div(cr-model-form, schema='schema', model='model', valid='data.valid', debug='data.debug')
 
     div.row(ng-switch, on='data.state')
 
@@ -7,7 +7,7 @@ div
         div.alert.alert-info(ng-switch-when='saving') Saving&hellip;
         div.alert.alert-error(ng-switch-when='error')
             h4 ERROR
-            pre {{ data.error|json }}
+            pre {{ data.error | json }}
             pre {{ data.error.stack }}
 
         div.col-md-6(ng-switch-when='editing')
