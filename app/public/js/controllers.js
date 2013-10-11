@@ -37,7 +37,7 @@ angular.module('myApp.controllers', [])
             'password'
         ];
         $scope.views = [];    
-        $scope.limit = 5;          
+        $scope.limit = 10;          
         $scope.order = [
             '_id',
             '_rev',
