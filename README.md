@@ -96,11 +96,12 @@ This sample application is quite incomplete and is being refactored constantly t
  - No thoughts have been given to security yet, i.e. restricting actions via the API.
  - Pagination in Users page - no ability to navigate to pages directly. Also would be nice if pages were represented in the url path and could handle a page refresh, e.g. users/page/2 (maybe need to use `offset` instead of `startkey`?).
  - Create/edit forms show validation before record is dirty (still works, just unsightly IMO).
- - Incomplete support for inut type validations, e.g. I have added a hack for email validation, but other formats are not yet supported.
- - Not all directive templates have been converted fully to Bootstrap 3, i.e. I have only converted some model templates and String and Number.
+ - Incomplete support for input type validations, e.g. email.
+ - I have attempted to convert most templates to Bootstrap 3, but have not tested all of these.
+ - No tests (bad Rob...).
  
 ## Endnote
 
 I am very much a beginner when it comes to node, angular.js, hapi.js and couchDB - so there are no doubt fundamental mistakes in the way I have approached things. This is very much a learning exercise for me.
 
-A big thank you to Till for his work in this space - it is appreciated (well, at least by one person :)
+A big thank you to Till for his work in this space - it is appreciated (well, at least by me :)
