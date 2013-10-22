@@ -16,7 +16,7 @@ angular.module('myApp', [
         
         $routeProvider
             .when('/',                  { templateUrl: 'partials/index',        controller: 'IndexCtrl' })
-            .when('/users',             { templateUrl: 'partials/users',        controller: 'UserCtrl' })
+            .when('/users',             { templateUrl: 'partials/users',        controller: 'UsersCtrl' })
             .when('/user/create',       { templateUrl: 'partials/user-create',  controller: 'UserCtrl' })
             .when('/user/view/:id',     { templateUrl: 'partials/user-view',    controller: 'UserCtrl' })
             .when('/user/edit/:id',     { templateUrl: 'partials/user-edit',    controller: 'UserCtrl' })

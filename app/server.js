@@ -1,15 +1,15 @@
 var
-    coresServer     = require('cores-server'),
-    fs              = require('fs'),
-    jade            = require('jade'),
-    nano            = require('nano')('http://localhost:5984'), 
-    path            = require('path'),
-    common          = require('./lib/common');
+    coresServer = require('cores-server'),
+    fs          = require('fs'),
+    jade        = require('jade'),
+    nano        = require('nano')('http://localhost:5984'), 
+    path        = require('path'),
+    common      = require('./lib/common');
     
 var 
-    host            = 'localhost',
-    port            = 8080,
-    dbName          = 'angular-hapi-couch';   
+    host        = 'localhost',
+    port        = 8080,
+    dbName      = 'angular-hapi-couch';   
 
 
 function configureServer(server, callback) {

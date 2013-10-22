@@ -25,7 +25,7 @@ angular.module('myApp.controllers', [])
     
     
     //! UserCtrl
-    .controller('UserCtrl', function($scope, $routeParams, $window, crResources) {  
+    .controller('UserCtrl', function($scope, $routeParams, crResources) {  
         
         $scope.type = 'User';
         $scope.modelId = $routeParams.id; 
@@ -59,6 +59,32 @@ angular.module('myApp.controllers', [])
                 }        
             );                                  
     })
+    
+    //! UsersCtrl
+    .controller('UsersCtrl', function($scope, $routeParams) {  
+        
+        $scope.type = 'User';
+        $scope.modelId = $routeParams.id; 
+        $scope.headers = [
+            'firstname',
+            'lastname',
+            'email',
+            'age',
+            'password'
+        ];
+        $scope.views = [];    
+        $scope.limit = 10;          
+        $scope.order = [
+            '_id',
+            '_rev',
+            'firstname',
+            'lastname',
+            'email',
+            'age',
+            'password',
+            'type_'
+        ];                                 
+    })    
     
     
     //! 404Ctrl
