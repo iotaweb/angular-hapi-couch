@@ -3,25 +3,31 @@
 angular.module('myApp.controllers', [])
 
     //! IndexCtrl
-    .controller('IndexCtrl', function($scope, crResources) {
+    .controller('IndexCtrl', function($scope, crResources, $route) {
     
-        $scope.type = 'User';
-            
-        crResources
-            .get($scope.type)
-            .view('names', { limit: 50 })
-            .then(
-                function success(result) {
+        var target = $route.current.templateUrl;
         
-                    if (result.total_rows === 0) {
-                        $scope.users = false;
-                        return;                
-                    }   else {
-                        $scope.users = true;
-                        $scope.names = result.rows;             
-                    }           
-                }
-            );                       
+        // only get names if on home page
+        if (target === 'partials/index') {
+    
+            $scope.type = 'User';
+                
+            crResources
+                .get($scope.type)
+                .view('names', { limit: 50 })
+                .then(
+                    function success(result) {
+            
+                        if (result.total_rows === 0) {
+                            $scope.users = false;
+                            return;                
+                        }   else {
+                            $scope.users = true;
+                            $scope.names = result.rows;             
+                        }           
+                    }
+                );            
+        }                      
     })
     
     
