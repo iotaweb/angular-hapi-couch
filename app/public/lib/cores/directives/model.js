@@ -8,7 +8,8 @@
       scope: {
         type: '@',
         modelId: '=',
-        defaults: '=?'
+        defaults: '=?',
+        options: '=?'
       },
 
       replace: true,

@@ -39,28 +39,28 @@
 
       var setError = function(name, message) {
         errors[name] = message;
-        scope.$emit('set:error', scope.path + ':' + name);
+        scope.$emit('cr:set:error', scope.path + ':' + name);
       };
 
 
       var removeError = function(name) {
         if (errors.hasOwnProperty(name)) {
           delete errors[name];
-          scope.$emit('remove:error', scope.path + ':' + name);
+          scope.$emit('cr:remove:error', scope.path + ':' + name);
         }
       };
 
 
       var setCustomError = function(name, message) {
         customErrors[name] = message;
-        scope.$emit('set:error', scope.path + ':' + name);
+        scope.$emit('cr:set:error', scope.path + ':' + name);
       };
 
 
       var removeCustomError = function(name) {
         if (customErrors.hasOwnProperty(name)) {
           delete customErrors[name];
-          scope.$emit('remove:error', scope.path + ':' + name);
+          scope.$emit('cr:remove:error', scope.path + ':' + name);
         };
       };
 
@@ -83,7 +83,7 @@
       };
 
 
-      scope.$on('set:customError', function(e, path, code, message) {
+      scope.$on('cr:set:customError', function(e, path, code, message) {
         if (path === scope.path) {
           setCustomError(code, message);
           return true;
@@ -92,7 +92,6 @@
 
 
       scope.$watch(watchExpr, function(newValue, oldValue, scope) {
-
         constraints.forEach(function(c) {
           c(newValue);
         });

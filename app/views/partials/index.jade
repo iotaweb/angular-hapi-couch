@@ -8,7 +8,7 @@ div.jumbotron
     
 div(ng-show='users')
 
-    p Registered users:
+    p Users:
 
     ol
         li(ng-repeat='name in names')
@@ -16,6 +16,6 @@ div(ng-show='users')
  
 div(ng-hide='users')
             
-    a.btn.btn-primary(ng-href='/users/populate', target='_self')
+    a.btn.btn-primary(ng-href='/users/add', target='_self')
         span.glyphicon.glyphicon-plus
         | &nbsp;Create Test Users         

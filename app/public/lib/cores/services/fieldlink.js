@@ -7,14 +7,16 @@
   //
   module.factory('crFieldLink', function(crCommon, crOptions) {
 
-    return function(linkFn) {
+    return function(/*[defaults], linkFn*/) {
+
+      var defaults = arguments.length === 2 ? arguments[0] : {
+          showLabel: true
+      };
+      var linkFn = arguments[arguments.length - 1];
 
       return function(scope, elem, attrs) {
-        var defaults = {
-          showLabel: true
-        };
-        scope.options = crCommon.merge(defaults, crOptions.parse(attrs.options));
-
+        scope.options = crCommon.merge(angular.copy(defaults),
+                                       crOptions.parse(attrs.options));
         linkFn(scope, elem, attrs);
       };
     };

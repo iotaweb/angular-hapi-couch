@@ -55,7 +55,7 @@
           scope.model.name = file.name;
 
           // notify model about file
-          scope.$emit('file:set', fileId, file);
+          scope.$emit('cr:file:set', fileId, file);
           scope.$apply();
         });
       })

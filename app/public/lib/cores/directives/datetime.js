@@ -25,48 +25,46 @@
         }
 
         var date = new Date();
-
-        if (scope.model && scope.model !== '') {
-          // get date from model
-          date = new Date(scope.model);
-        }
-        else {
-          // set today as start date
+        if (!scope.model) {
           scope.model = date.toISOString();
         }
 
-        var datepicker = elem.find('.date').datepicker({
-          todayHighlight: true
-        });
-        datepicker.datepicker('update', date);
+        // datepicker
+        elem.find('.date').datetimepicker({
+          maskInput: true,
+          pickDate: true,
+          pickTime: false
+        })
+          .datetimepicker('setValue', date)
+          .on('changeDate', function(e) {
+            e.stopPropagation();
 
-        var timepicker = elem.find('.time').timepicker({
-          minuteStep: 5,
-          defaultTime: date.getHours() + ':' + date.getMinutes(),
-          showMeridian: false,
-          showSeconds: false
-        });
+            date.setFullYear(e.date.getFullYear());
+            date.setMonth(e.date.getMonth());
+            date.setDate(e.date.getDate());
 
-        datepicker.on('changeDate', function(e) {
-          e.stopPropagation();
+            scope.model = date.toISOString();
+            scope.$apply();
+          });
 
-          date.setFullYear(e.date.getFullYear());
-          date.setMonth(e.date.getMonth());
-          date.setDate(e.date.getDate());
+        // timepicker
+        elem.find('.time').datetimepicker({
+          maskInput: true,
+          pickDate: false,
+          pickTime: true,
+          pickSeconds: false
+        })
+          .datetimepicker('setValue', date)
+          .on('changeDate', function(e) {
+            e.stopPropagation();
 
-          scope.model = date.toISOString();
-          scope.$apply();
-        });
+            date.setHours(e.date.getHours());
+            date.setMinutes(e.date.getMinutes());
 
-        timepicker.on('changeTime.timepicker', function(e) {
-          e.stopPropagation();
+            scope.model = date.toISOString();
+            scope.$apply();
+          });
 
-          date.setHours(e.time.hours);
-          date.setMinutes(e.time.minutes);
-
-          scope.model = date.toISOString();
-          scope.$apply();
-        });
       })
     };
   });

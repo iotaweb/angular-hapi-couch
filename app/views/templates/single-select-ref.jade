@@ -1,8 +1,5 @@
 div.form-group(ng-class='{ \'has-error\': hasErrors() }')
-
-    label.control-label(for='{{name}}', ng-show='options.showLabel') {{name}}:
-
-    select(ng-model='selectedRow', ng-options='r.name for r in rows', id='{{name}}')
+    label.control-label(ng-show='options.showLabel') {{name}}:
+    select.form-control(ng-model='selectedRow', ng-options='r.name for r in rows')
         option(value='') -- choose --
-
-      p.help-block(ng-show='hasErrors()') {{ getFirstError() }}
+    p.help-block(ng-show='hasErrors()') {{ getFirstError() }}

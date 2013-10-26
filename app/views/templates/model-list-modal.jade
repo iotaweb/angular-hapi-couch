@@ -1,18 +1,10 @@
-div.modal.fade
-
+div.modal.fade(id='{{modalId}}', tabindex='-1')
     div.modal-dialog
-
         div.modal-content
-
             div.modal-header
-
-                button.close(data-dismiss='modal') x
+                button.close(type='button', data-dismiss='modal', aria-hidden='true') ×
                 h4.modal-title {{type}}
-
             div.modal-body
-
-                div(cr-model-list, type='{{type}}')
-
+                div(cr-model-list, type='{{type}}', view='view')
             div.modal-footer
-
-                button.btn.pull-right(ng-click='cancel', data-dismiss='modal') Cancel
+                button.btn.btn-default.pull-right(ng-click='cancel', data-dismiss='modal') Cancel

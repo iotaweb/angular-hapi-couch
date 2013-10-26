@@ -6,15 +6,20 @@
   module.controller('crArrayItemCtrl', function($scope) {
 
     $scope.moveUp = function() {
-      $scope.$emit('moveUp:item', $scope.$parent.$index);
+      $scope.$emit('cr:moveUp:item', $scope.$parent.$index);
     };
 
     $scope.moveDown = function() {
-      $scope.$emit('moveDown:item', $scope.$parent.$index);
+      $scope.$emit('cr:moveDown:item', $scope.$parent.$index);
     };
 
     $scope.remove = function() {
-      $scope.$emit('remove:item', $scope.$parent.$index);
+      $scope.$emit('cr:remove:item', $scope.$parent.$index);
+    };
+
+    $scope.addItem = function(schema) {
+      schema = schema || $scope.schema;
+      $scope.$emit('cr:add:item', schema, $scope.$parent.$index);
     };
   });
 })();

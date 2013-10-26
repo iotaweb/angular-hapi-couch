@@ -1,7 +1,10 @@
-div
-
-    label.control-label(for='{{name}}') {{name}}
-
-    input(type='file')
-    
-    img.img-rounded(height='140')
+div.form-group
+    label.control-label {{name}}
+        div.row
+            div.col-md-6
+                div.thumbnail
+                    img.img-rounded(height='140')
+            div.col-md-6
+                span.btn.btn-default.cr-btn-file
+                    | Browse
+                    input(type='file')

@@ -1,16 +1,13 @@
-div
-
+div.form-group
     label.control-label(ng-show='options.showLabel') {{name}}:
-
-    div.btn-group
-    
-        a.btn.dropdown-toggle(data-toggle='dropdown', href='#') Add
-            span.caret
-
-        ul.dropdown-menu(role='menu')
-            li(ng-repeat='schema in schema.items.anyOf')
-                a(ng-click='addItem(schema)') {{schema.name}}
-
-    ul.unstyled
-        li(ng-repeat='model in model')
-            div(cr-anyof-item, model='model', path='{{path}}[ {{$index}} ]')
+    div
+        div.btn-group
+            button.btn.btn-default.btn-sm.dropdown-toggle(data-toggle='dropdown', href='#')
+                span.glyphicon.glyphicon-plus
+                span.caret
+            ul.dropdown-menu(role='menu')
+                li(ng-repeat='schema in schema.items.anyOf')
+                    a(ng-click='addItem(schema)') {{schema.name}}
+        ul.list-unstyled
+            li(ng-repeat='model in model')
+                div(cr-anyof-item, model='model', path='{{path}}[ {{$index}} ]', schemas='schema.items.anyOf', options='options.item')

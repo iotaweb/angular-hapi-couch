@@ -1,12 +1,13 @@
-div.cr-array-item
-
-    div.cr-item-controls.btn-group
-        
-        button.btn.btn-sm(ng-click='moveUp()')
-            span.glyphicon.glyphicon-arrow-up
-            
-        button.btn.btn-sm(ng-click='moveDown()')
-            span.glyphicon.glyphicon-arrow-down
-            
-        button.btn.btn-sm.btn-danger(ng-click='remove()')
-            span.glyphicon.glyphicon-remove-circle
+div
+    div.cr-array-item-group
+        div.cr-item-controls.btn-group
+            button.btn.btn-default.btn-xs(ng-click='moveUp()')
+                span.glyphicon.glyphicon-arrow-up
+            button.btn.btn-default.btn-xs(ng-click='moveDown()')
+                span.glyphicon.glyphicon-arrow-down
+            button.btn.btn-danger.btn-xs(ng-click='remove()')
+                span.glyphicon.glyphicon-minus
+        div.cr-item-body
+    div.cr-item-footer
+        button.btn.btn-default.btn-xs(ng-click='addItem()')
+          span.glyphicon.glyphicon-plus

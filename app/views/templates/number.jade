@@ -1,7 +1,4 @@
 div.form-group(ng-class='{ \'has-error\': hasErrors() }')
-
-    label.control-label(for='{{name}}') {{name}}:
-    
-    input.form-control(type='number', ng-model='model', id='{{name}}')
-
+    label.control-label(ng-show='options.showLabel') {{name}}:
+    input.form-control(type='number', ng-model='model')
     p.help-block(ng-show='hasErrors()') {{ getFirstError() }}

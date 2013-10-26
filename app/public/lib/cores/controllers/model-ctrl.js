@@ -18,6 +18,8 @@
     var STATE_SAVING = 'saving';
     var STATE_ERROR = 'error';
 
+    $scope.options = $scope.options || {};
+
     var self = this;
     var data = $scope.data = {
       valid: true,
@@ -28,12 +30,12 @@
 
     // add/update/remove files from the model
 
-    $scope.$on('file:set', function(e, id, file) {
+    $scope.$on('cr:file:set', function(e, id, file) {
       e.stopPropagation();
       data.files[id] = file;
     });
 
-    $scope.$on('file:remove', function(e, id) {
+    $scope.$on('cr:file:remove', function(e, id) {
       e.stopPropagation();
       delete data.files[id];
     });
@@ -41,16 +43,16 @@
     // button methods
 
     $scope.save = function() {
-      $scope.$emit('model:save');
+      $scope.$emit('cr:model:save');
       return self.save();
     };
 
     $scope.cancel = function() {
-      $scope.$emit('model:cancel');
+      $scope.$emit('cr:model:cancel');
     };
 
     $scope.destroy = function() {
-      $scope.$emit('model:destroy');
+      $scope.$emit('cr:model:destroy');
       return self.destroy();
     };
 
@@ -61,6 +63,11 @@
     $scope.isNew = function() {
       if (!$scope.model) return true;
       return !$scope.model._rev;
+    };
+
+    $scope.buttonClick = function(e, eventName) {
+      e.stopPropagation();
+      $scope.$emit(eventName, $scope.model);
     };
 
     //
@@ -96,22 +103,31 @@
         self.setModel(doc);
         $scope.modelId = doc._id;
         data.state = STATE_EDITING;
-        $scope.$emit('model:saved', $scope.model);
+        $scope.$emit('cr:model:saved', $scope.model);
         def.resolve(doc);
         // redirect to model list page
         $location.path(crCommon.getPathFromType($scope.model.type_));
 
       }, function(err) {
+        var rootErrors = [];
         if (err.errors && angular.isArray(err.errors)) {
           // error has form field errors
           data.state = STATE_EDITING;
           err.errors.forEach(function(v) {
-            $scope.$broadcast('set:customError', v.path, v.code, v.message);
+            if (!v.path) {
+              rootErrors.push(v);
+            }
+            else {
+              $scope.$broadcast('cr:set:customError', v.path, v.code, v.message);
+            }
           });
         }
         else {
+          rootErrors.push(err);
+        }
+        if (rootErrors.length) {
           data.state = STATE_ERROR;
-          data.error = err;
+          data.error = rootErrors;
         }
         def.reject(err);
       });
@@ -126,7 +142,7 @@
       return this._resource.destroy($scope.model).then(
         function() {
           self.setModel();
-          $scope.$emit('model:destroyed');
+          $scope.$emit('cr:model:destroyed');
           // redirect to model list page
           $location.path(crCommon.getPathFromType(type));       
         }

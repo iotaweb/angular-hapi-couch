@@ -23,7 +23,7 @@
       link: function(scope, elem, attrs) {
         var defaults = {
           showLabel: true,
-          indentProperties: true
+          indent: true
         };
         scope.options = crCommon.merge(defaults, crOptions.parse(attrs.options));
 

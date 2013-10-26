@@ -1,11 +1,8 @@
-div
-
+div.form-group
     label.control-label(ng-show='options.showLabel') {{name}}:
-
-    div.cr-indent
-    
-        button.btn(ng-click='addItem(schema.items)') Add
-
-        ul.unstyled
+    div
+        button.btn.btn-default.btn-sm(ng-click='addItem(schema.items)')
+            span.glyphicon.glyphicon-plus
+        ul.list-unstyled
             li(ng-repeat='model in model')
-                div(cr-array-item, schema='schema.items', model='model', path='{{path}}/{{$index}}')
+                div(cr-array-item, schema='schema.items', model='model', path='{{path}}/{{$index}}', options='options.item')

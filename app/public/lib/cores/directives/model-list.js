@@ -18,6 +18,8 @@
         var firstSelect = true;
         var defaultConfig = '';
 
+        scope.defaultTitle = scope.view ? (scope.view.title || 'Default') : 'Default';
+
         scope.$watch('selectedView', function(newConfig, oldConfig) {
           if (firstSelect && newConfig) {
             // remeber default view config
@@ -33,19 +35,35 @@
   });
 
 
-  module.directive('crModelList', function(crCommon, crResources, crSchema, crJSONPointer) {
+  module.directive('crModelList', function(
+    $sce,
+    crCommon,
+    crResources,
+    crSchema,
+    crJSONPointer
+  ) {
     return {
       scope: {
         type: '@',
         view: '=?',
         limit: '=?',
-        headers: '=?'
+        headers: '=?',
+        options: '=?'
       },
 
       replace: true,
       templateUrl: 'cr-model-list.html',
 
+      controller: function($scope) {
+        $scope.buttonClick = function(e, eventName, id) {
+          e.stopPropagation();
+          $scope.$emit(eventName, id);
+        };
+      },
+
       link: function(scope, elem, attrs) {
+
+        scope.options = scope.options || {};
 
         var resource;
         var schema;
@@ -56,6 +74,7 @@
           scope.curKey = null;
           scope.nextKey = null;
           scope.rows = [];
+          scope.showPagination = false;
           scope.pageNo = 1;
           scope.totalPages = 1;
         }
@@ -95,8 +114,15 @@
             scope.rows = result.rows.map(function(row) {
               return {
                 id: row.id,
-                items: scope.headers.map(function(path, i) {
-                  return { value: crJSONPointer.get(row.doc, path) };
+                items: scope.headers.map(function(header, i) {
+                  var val = '';
+                  if (header.path) {
+                    val = crJSONPointer.get(row.doc, header.path);
+                  }
+                  else if (header.map) {
+                    val = header.map(row.doc);
+                  }
+                  return { value: $sce.trustAsHtml(String(val)) };
                 })
               };
             });
@@ -112,10 +138,13 @@
                 // there a more pages left, remember the last row's key and do not display it
                 scope.nextKey = result.rows[limit].key;
                 scope.rows.pop();
+                scope.showPagination = true;
               }             
             } else {
-                // if all rows deleted and not on last page, load previous page
+                // if all rows deleted and not on last page
+                // hide pagination and load previous page
                 if (scope.totalPages > 1) {
+                    scope.showPagination = false;
                     load(scope.prevKeys.pop());
                 }
             }
@@ -128,7 +157,7 @@
         }
 
         scope.select = function(id) {
-          scope.$emit('list:select', id);
+          scope.$emit('cr:list:select', id);
         };
 
         scope.next = function() {
@@ -154,21 +183,21 @@
         };        
         
         scope.destroy = function(id) {                  
-          scope.$emit('model:destroy');
+          scope.$emit('cr:model:destroy');
           resource.load(id)
             .then(
-              function (doc) {          
+              function (doc) {        
                 return resource.destroy(doc);
               }
             )
             .then(
-              function () {
-                load(scope.curKey);                   
+              function () {           
+                  load(scope.curKey);                   
               }
             );                                  
         };        
     
-        scope.$on('reload:list', function(e) {
+        scope.$on('cr:reload:list', function(e) {
           e.preventDefault();
           load();
         });
@@ -183,11 +212,14 @@
             if (!scope.headers || scope.headers.length === 0) {
               scope.headers = Object.keys(schema.properties).filter(function(key) {
                 return !crSchema.isPrivateProperty(key);
+              }).map(function(key) {
+                return { title: crCommon.capitalize(key).split('/')[0], path: key };
               });
             }
             // table column titles
             scope.titles = scope.headers.map(function(header) {
-              return header.split('.')[0];
+              return header.title ||
+                (header.path ? crCommon.capitalize(header.path).split('/')[0] : '');
             });
 
             load();
@@ -211,7 +243,8 @@
     return {
       scope: {
         type: '@',
-        modalId: '@'
+        modalId: '@',
+        view: '=?'
       },
 
       replace: true,
@@ -219,18 +252,23 @@
 
       link: function(scope, elem, attrs) {
 
-        scope.$on('list:select', function(e, id) {
+        if (!scope.view) {
+          scope.view = {
+            name: 'all'
+          };
+        }
+
+        scope.$on('cr:list:select', function(e, id) {
           elem.modal('hide');
         });
 
-        scope.$on('showModal:list', function(e, modalId, reload) {
+        scope.$on('cr:showModal:list', function(e, modalId, reload) {
 
           if (modalId === scope.modalId) {
             e.preventDefault();
             elem.modal('show');
-
             if (reload) {
-              scope.$broadcast('reload:list');
+              scope.$broadcast('cr:reload:list');
             }
           }
         });

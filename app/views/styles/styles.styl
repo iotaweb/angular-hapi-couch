@@ -13,8 +13,8 @@ a
         color #428bca
     &.green
         color #47a447
-    &.glyphicon:hover
-        text-decoration none
+    &.glyphiconhover
+        text-decoration none      
 
 // Wrapper for page content to push down footer
 #wrap
@@ -29,112 +29,7 @@ a
 
 #footer
     padding 0px 20px
-
-/* cores-ng styles */
-
-[cr-anyof-item]
-[cr-array-item]
-    position relative
-
-[cr-anyof-item] hr
-[cr-array-item] hr
-    margin 10px 0
-
-[cr-image-preview] img
-    max-height 64px
-    min-width 64px
-    margin-top 8px
-
-[cr-image]
-    overflow hidden
-
-[cr-image] img
-    float left
-    display block
-    background-color #ddd
-    max-height 140px
-    min-width 140px
-    margin-right 12px
-
-[cr-tab-object] .tab-content
-    overflow visible
-
-[cr-slug] input[type=text]
-    text-transform lowercase
-
-[cr-model-list]
-    .pagination > .disabled > span
-    .pagination > .disabled > a
-    .pagination > .disabled > a:hover
-    .pagination > .disabled > a:focus
-        cursor default
-
-[cr-model-list-filter]
-    select
-        width 100px
-        margin 0 0 15px 0
-
-.cr-array-item
-.cr-anyof-item
-    position relative
-    margin 15px 0
-    background-color #fff
-    border 1px solid #ddd
-    border-radius 4px
-
-.cr-array-item
-    padding 12px 19px 8px
-
-.cr-anyof-item
-    padding: 34px 19px 8px
-
-
-.cr-anyof-item .cr-object-label
-    position absolute
-    top -1px
-    left -1px
-    padding 3px 7px
-    font-size 12px
-    font-weight bold
-    background-color #f5f5f5
-    border 1px solid #ddd
-    color #9da0a4
-    border-radius 4px 0 4px 0
-
-.cr-item-controls
-    position absolute
-    top -1px
-    right -1px
-
-.cr-item-controls .btn-group
-    margin-right 8px
-
-.cr-indent
-    padding-left 12px
-    margin-bottom:10px
-    border-left 1px solid #eee
-
-.cr-debug
-.cr-editor
-    border 1px solid #ccc
-    border-radius 4px
-    padding 12px
-    overflow hidden
-
-.cr-editor-area
-    display block
-    width 100%
-    box-shadow none
-    border-style none
-    border-color transparent
-    overflow auto
-    -moz-box-sizing border-box
-         box-sizing border-box
-
-
-.cr-editor-preview
-    display none
-
+    
 .well pre
     background #fff
 
@@ -161,4 +56,123 @@ a
     margin-top 20px
 
 .capitalize
-    text-transform capitalize
+    text-transform capitalize      
+
+/* cores-ng styles */
+
+[cr-tab-object] .tab-content
+    overflow visible
+    margin-top 12px
+
+[cr-slug] input[type=text]
+    text-transform lowercase
+
+[cr-model-list-filter] select
+    width auto
+
+[cr-anyof-item] .cr-object-label
+    position absolute
+    top -1px
+    left -1px
+    padding 5px 12px
+    background-color #f5f5f5
+    border 1px solid #ddd
+    color #46a546
+    border-radius 4px 0 4px 0
+
+.cr-array-item-group
+.cr-anyof-item-group
+    position relative
+    border 1px solid #ddd
+    border-radius 4px
+    padding-left 12px
+    padding-right 12px
+    margin 6px 0 6px
+
+.cr-array-item-group
+    padding-top 6px
+
+.cr-anyof-item-group
+    padding-top 40px
+
+.cr-item-controls
+    position absolute
+    top -1px
+    right -1px
+
+.cr-item-controls .btn-group
+    margin-right 8px
+
+.cr-item-body
+
+.cr-item-footer
+    text-align center
+    margin-bottom 6px
+
+.cr-item-footer .btn-group
+    text-align left
+
+.cr-indent
+    padding-left 12px
+    border-left 1px solid #eee
+
+.cr-editor.cr-border
+cr-debug
+    border 1px solid #ccc
+    border-radius 4px
+    overflow hidden
+
+.cr-editor.cr-border
+    padding 8px
+
+.cr-editor .btn-group
+    margin-top 8px
+
+.cr-editor-area
+    display block
+    width 100%
+    box-shadow none
+    border-style none
+    border-color transparent
+    overflow auto
+    -moz-box-sizing border-box
+    box-sizing border-box
+
+.cr-editor-preview
+    display none
+
+.cr-debug
+    padding 0 10px 10px
+
+.cr-ref-controls
+    margin-top 6px
+
+.cr-model-controls .btn
+    margin-left 2px
+    margin-right 2px
+
+.cr-list-buttons
+    width 1%
+    white-space nowrap
+
+.cr-list-buttons .btn
+    float none
+
+/* http//www.abeautifulsite.net/blog/2013/08/whipping-file-inputs-into-shape-with-bootstrap-3/ */
+.cr-btn-file
+    position relative
+    overflow hidden
+
+.cr-btn-file input[type=file]
+    position absolute
+    top 0
+    right 0
+    min-width 100%
+    min-height 100%
+    font-size 999px
+    text-align right
+    filter unquote('alpha(opacity=0)')
+    opacity 0
+    background red
+    cursor inherit
+    display block

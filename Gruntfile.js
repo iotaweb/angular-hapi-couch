@@ -61,6 +61,7 @@ module.exports = function(grunt) {
                 src: [  // order matters!
                     'app/public/lib/cores/index.js',
                     'app/public/lib/cores/templates/templates.js',
+                    'app/public/lib/cores/filters/*.js',
                     'app/public/lib/cores/controllers/*.js',
                     'app/public/lib/cores/services/*.js',
                     'app/public/lib/cores/directives/*.js'
@@ -157,23 +158,23 @@ module.exports = function(grunt) {
         var done = this.async();
 
         // create db for testing
-        nano.db.get(dbName, function(err, body) {
+        nano.db.get(dbName, function(error, body) {
 
-            if (!err) {
+            if (!error) {
                 // db exists, recreate
-                nano.db.destroy(dbName, function(err) {
+                nano.db.destroy(dbName, function(error) {
 
-                    if (err) {
-                        done(err);
+                    if (error) {
+                        done(error);
                     }
                     nano.db.create(dbName, done);
                 });
-            } else if (err.reason === 'no_db_file') {
+            } else if (error.reason === 'no_db_file') {
                 // create the db
                 nano.db.create(dbName, done);
 
             } else {
-                done(err);
+                done(error);
             }
         });
     });
@@ -185,10 +186,10 @@ module.exports = function(grunt) {
         var users = require('./test/fixtures/users.json');
 
         // add test users
-        db.bulk(users, function (err, body) {
+        db.bulk(users, function (error, body) {
 
-            if(err) {
-                done(err);
+            if(error) {
+                done(error);
             }
         });
     });
@@ -199,15 +200,12 @@ module.exports = function(grunt) {
         var done = this.async();
         var startServer = require('./app/server.js');
 
-        startServer(function(err) {
+        startServer(function(error) {
 
-            if (err) {
-                console.log(err);
+            if (error) {
+                console.log(error);
             }
         });
-
         // never call done to run endlessly
-
     });
-
 };

@@ -3,13 +3,15 @@
   var module = angular.module('cores.directives');
 
 
-  module.directive('crAnyofItem', function($compile, crBuild) {
+  module.directive('crAnyofItem', function($compile, crCommon, crBuild) {
     return {
       require: '^crAnyofArray',
       scope: {
         model: '=',
         name: '@',
-        path: '@'
+        path: '@',
+        schemas: '=',
+        options: '=?'
       },
 
       replace: true,
@@ -18,21 +20,23 @@
       controller: 'crArrayItemCtrl',
 
       link: function(scope, elem, attrs, anyof) {
+
         // get the schema from the anyof-array
         scope.schema = anyof.getSchema(scope.model.type_);
         scope.array = anyof;
 
-        var tmpl = crBuild.buildTemplate(scope.schema, scope.model, 'schema', 'model', scope.path,
-                                         { indentProperties: false });
+        var tmpl = crBuild.buildTemplate(scope.schema, scope.model, 'schema', 'model',
+                                         scope.path, { indent: false });
         var link = $compile(tmpl);
         var e = link(scope);
-        elem.append(e);
+        elem.find('.cr-item-body').html(e);
+        elem.find('.dropdown-toggle').dropdown();
       }
     };
   });
 
 
-  module.directive('crAnyofArray', function($compile, crFieldLink) {
+  module.directive('crAnyofArray', function($compile, crCommon, crFieldLink) {
     return {
       scope: {
         model: '=',
@@ -46,7 +50,8 @@
 
       controller: 'crAnyofArrayCtrl',
 
-      link: crFieldLink(function(scope, elem, attrs) {
+      link: crFieldLink({ showLabel: true, indent: true }, function(scope, elem, attrs) {
+
         elem.find('.dropdown-toggle').dropdown();
       })
     };

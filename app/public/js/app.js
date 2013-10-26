@@ -16,11 +16,12 @@ angular.module('myApp', [
         
         $routeProvider
             .when('/',                  { templateUrl: 'partials/index',        controller: 'IndexCtrl' })
+            .when('/api',               { templateUrl: 'partials/api',          controller: 'IndexCtrl' })
             .when('/users',             { templateUrl: 'partials/users',        controller: 'UsersCtrl' })
             .when('/user/create',       { templateUrl: 'partials/user-create',  controller: 'UserCtrl' })
             .when('/user/view/:id',     { templateUrl: 'partials/user-view',    controller: 'UserCtrl' })
             .when('/user/edit/:id',     { templateUrl: 'partials/user-edit',    controller: 'UserCtrl' })
-            .when('/user/delete/:id',   { templateUrl: 'partials/users',        controller: 'UserCtrl' })        
+            .when('/user/delete/:id',   { templateUrl: 'partials/users',        controller: 'UsersCtrl' })        
             .otherwise(                 { templateUrl: 'partials/404',          controller: '404Ctrl', title: '404'});
             
         // Removes the # in urls
@@ -34,7 +35,7 @@ angular.module('myApp', [
     //! run
     .run(function(crResources) {
            
-        var options = { path: '/cores' };
+        var options = { path: '/api' };
         
         crResources.init(options).then(function() {
         

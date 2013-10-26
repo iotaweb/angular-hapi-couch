@@ -1,13 +1,8 @@
 div.form-group(ng-class='{ \'has-error\': hasErrors() }')
-
-    label.control-label(for='{{name}}', ng-show='options.showLabel') {{name}}:
-
-    div.cr-editor
-    
-        textarea.cr-editor-area(ng-model='model', rows='1', id='{{name}}')
-        
+    label.control-label(ng-show='options.showLabel') {{name}}:
+    div.cr-editor.clearfix(ng-class='{ \'cr-border\': options.showBorder }')
+        textarea.form-control.cr-editor-area(ng-model='model', rows='1')
         div.cr-editor-preview
-        
-        button.btn.pull-right(ng-click='togglePreview()') {{ isPreview ? 'Edit' : 'Preview' }}
-        
+        div.btn-group.pull-right
+            button.btn.btn-default(ng-click='togglePreview()') {{ isPreview ? "Edit" : "Preview" }}
         p.help-block(ng-show='hasErrors()') {{ getFirstError() }}

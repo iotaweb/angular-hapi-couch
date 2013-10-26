@@ -1,5 +1,4 @@
 div
-    
     table.table.table-hover
         thead
             tr
@@ -11,7 +10,7 @@ div
         tbody
             tr(ng-repeat='row in rows')
                 td.text-center {{$index + (pageNo - 1) * limit + 1}}
-                td(ng-repeat='item in row.items') {{item.value}}
+                td(ng-repeat='item in row.items', ng-bind-html='item.value')
                 td.text-center
                     a.glyphicon.glyphicon-eye-open.green(ng-href='/user/view/{{row.id}}')
                 td.text-center
@@ -23,7 +22,7 @@ div
         span.glyphicon.glyphicon-plus
         | &nbsp;Create                    
     
-    ul.pagination.pull-right(ng-show='totalPages > 1')
+    ul.pagination.pull-right(ng-show='showPagination')
         li(ng-class='!isLoading && prevKeys.length ? \'\' : \'disabled\'')
             a(href='', ng-click='prev()') Prev &laquo;
         li(ng-repeat='page in range(totalPages) track by $index', ng-class='pageNo == $index + 1 ? \'active\' : \'\'')

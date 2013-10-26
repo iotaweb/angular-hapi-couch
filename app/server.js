@@ -1,18 +1,17 @@
-var
-    coresServer = require('cores-server'),
-    fs          = require('fs'),
-    jade        = require('jade'),
-    nano        = require('nano')('http://localhost:5984'), 
-    path        = require('path'),
-    common      = require('./lib/common');
+var cs = require('cores-server');
+var fs = require('fs');
+var Q = require('kew');
+var jade = require('jade');
+var nano = require('nano')('http://localhost:5984');
+var path = require('path');
+var common = require('./lib/common');
     
-var 
-    host        = 'localhost',
-    port        = 8080,
-    dbName      = 'angular-hapi-couch';   
+var host = 'localhost';
+var port = 8080;
+var dbName = 'angular-hapi-couch';   
 
 
-function configureServer(server, callback) {
+function init(server) {
 
     server.on('response', function(req) {
     
@@ -23,9 +22,9 @@ function configureServer(server, callback) {
         );
     });
 
-    server.on('internalError', function(req, error) {
+    server.on('internalerror', function(req, error) {
     
-        console.log('ERROR', error);
+        console.log('error', error);
     });
 
     // listen on pack events to get plugin log events as well 
@@ -36,7 +35,7 @@ function configureServer(server, callback) {
     
     // Define the route handlers
 
-    var getIndex = function (request) {
+    getIndex = function(request) {
           
         request.reply.view('index');
     };
@@ -63,87 +62,106 @@ function configureServer(server, callback) {
            
     }; 
     
-    var populateUsers = function (request) {
+    var addUsers = function (request) {
   
         var self = this;          
         var db = nano.use(dbName);            
         var users = require('../test/fixtures/users.json');        
     
         // add test users
-        db.bulk(users, function (err, body) {   
-            if (err) {
-                console.log('ERROR', err);
+        db.bulk(users, function (error, body) {   
+            if (error) {
+                console.log('error', error);
             } else {
                  self.reply.redirect('/users'); 
             }           
         }); 
     };
-
+    
     // routes
     server.route([
-        // Routes with partials (pages)
-        { method: 'GET', path: '/',                     handler: getIndex },       
-        { method: 'GET', path: '/users',                handler: getIndex }, 
-        { method: 'GET', path: '/users/populate',       handler: populateUsers }, 
-        { method: 'GET', path: '/user/{path*}',         handler: getIndex },              
-        { method: 'GET', path: '/partials/{path*}',     handler: getPartial }, 
-        
-        // Routes for static resources, e.g. bower components, css, img, js, libs
-        { method: 'GET', path: '/components/{path*}',   handler: { directory: { path: './components' } } },
-        { method: 'GET', path: '/css/{path*}',          handler: { directory: { path: './css' } } },
-        { method: 'GET', path: '/img/{path*}',          handler: { directory: { path: './img' } } },
-        { method: 'GET', path: '/js/{path*}',           handler: { directory: { path: './js' } } },
-        { method: 'GET', path: '/lib/{path*}',          handler: { directory: { path: './lib' } } },
-        { method: 'GET', path: '/upload/{path*}',       handler: { directory: { path: './upload' } } },
-
-        // All remaining routes - redirect to index
-        { method: 'GET', path: '/{path*}',              handler: get404 }
-    ]);    
+        { method: 'GET', path: '/', handler: getIndex },
+        { method: 'GET', path: '/api', handler: getIndex },            
+        { method: 'GET', path: '/users', handler: getIndex },        
+        { method: 'GET', path: '/users/add', handler: addUsers }, 
+        { method: 'GET', path: '/user/{path*}', handler: getIndex },              
+        { method: 'GET', path: '/partials/{path*}', handler: getPartial }, 
+        { method: 'GET', path: '/components/{path*}', handler: { directory: { path: './components' } } },
+        { method: 'GET', path: '/css/{path*}', handler: { directory: { path: './css' } } },
+        { method: 'GET', path: '/img/{path*}', handler: { directory: { path: './img' } } },
+        { method: 'GET', path: '/js/{path*}', handler: { directory: { path: './js' } } },
+        { method: 'GET', path: '/lib/{path*}', handler: { directory: { path: './lib' } } },
+        { method: 'GET', path: '/upload/{path*}', handler: { directory: { path: './upload' } } },
+        { method: 'GET', path: '/{path*}', handler: get404 }        
+    ]);        
 
     // app data
     var app = server.pack.app = {
         upload: {
             dir: path.join(__dirname, '/public/upload'),
-            url: '/test/public/upload/'
+            url: '/upload/'
         }
     };
-
-    // create upload dir
-    fs.mkdir(app.upload.dir, function(err) {
-        if (err && err.code !== 'EEXIST') {
-            return callback(err);
-        }
-        server.start(callback);
-    });
     
     // image resource handlers    
     function imageHandler(payload) {
     
         var doc = payload;
-        
+    
         if (payload.isMultipart) {
+    
             var numFiles = parseInt(payload.numFiles, 10);
-            console.log('isMultipart, numFiles', numFiles);
-            for (var i = 0; i < numFiles; ++i) {
-                console.log('file', i, payload['file' + i]);
-            }
+            // console.log('isMultipart, numFiles', numFiles);
+            // for (var i = 0; i < numFiles; ++i) {
+            //   console.log('file', i, payload['file' + i]);
+            // }
             doc = payload.doc;
+        
+            if (numFiles > 0) {
+                var file = payload['file0'];
+                var destFile = app.upload.dir + '/' + file.name;
+                var defer = Q.defer();
+        
+                fs.rename(file.path, destFile, function(error) {
+                
+                    if (error) return defer.reject(error);
+                    doc.file.url = '/upload/' + file.name;
+                    defer.resolve(doc);
+                });
+                return defer.promise;
+            }
         }
-        console.log('doc', doc);
-        return doc;
+        return Q.resolve(doc);
     };
     
-    server.app.api.addHandler('create', 'Image', function(payload) {
+    server.app.api.setHandler('create', 'Image', function(payload) {
     
-        console.log('create image');
         return imageHandler(payload);
     });
     
-    server.app.api.addHandler('update', 'Image', function(payload) {
+    server.app.api.setHandler('update', 'Image', function(payload) {
     
-        console.log('update image');
         return imageHandler(payload);
     });    
+       
+    // create upload dir
+    var defer = Q.defer();
+    fs.mkdir(app.upload.dir, function(error) {
+    
+        if (error && error.code !== 'EEXIST') {
+        
+            return defer.reject(error);
+        }
+        server.start(function(error) {
+            
+            if (error) {
+                return defer.reject(error);
+            }
+            defer.resolve();
+        });
+        
+    });
+    return defer.promise;
 }
 
 
@@ -184,18 +202,28 @@ module.exports = function setupServer(callback) {
         db: {
             name: dbName
         },
-        resourcesDir: path.join(__dirname, 'models'),
-        apiPath: '/cores'
+        resourcesDir: path.join(__dirname, 'models')
+    };
+    
+    options.api = {
+        path: '/api',
+        auth: false
     };
   
-    coresServer(options.cores).then(
-        function(server) {
+    cs.createServer(options.cores).then(function(server) {
 
-            configureServer(server, callback);
-            console.log('\nHapi server started on %s\n',options.hapi.location);            
-        }, function(err) {
-    
-            callback(err);
-        }
-    );
+        return cs.createApi(server, options.api);
+    }).then(function(server) {
+            
+        return init(server);
+        
+    }).then(function(success) {
+            
+            callback(
+               console.log('\nHapi server started on %s\n',options.hapi.location)
+            );
+        }, function(error) {
+        
+            callback(error);
+    });
 };

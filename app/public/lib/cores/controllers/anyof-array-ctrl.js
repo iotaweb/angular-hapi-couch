@@ -24,5 +24,5 @@
       if (!schema) throw new Error('No schema for type found: ' + type);
       return schema;
     };
-  })
+  });
 })();

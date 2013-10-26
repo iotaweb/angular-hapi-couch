@@ -20,13 +20,13 @@
         $scope.valid = true;
         $scope.errors = {};
 
-        $scope.$on('set:error', function(e, id) {
+        $scope.$on('cr:set:error', function(e, id) {
           e.stopPropagation();
           $scope.errors[id] = true;
           $scope.valid = false;
         });
 
-        $scope.$on('remove:error', function(e, id) {
+        $scope.$on('cr:remove:error', function(e, id) {
           e.stopPropagation();
           delete $scope.errors[id];
           $scope.valid = Object.keys($scope.errors).length === 0;
@@ -53,7 +53,7 @@
           }
           // create markup
           var tmpl = crBuild.buildTemplate(scope.schema, scope.model, 'schema', 'model',
-                                           '', { showLabel: false, indentProperties: false });
+                                           '', { showLabel: false, indent: false });
 
           // compile and link with new scope
           childScope = scope.$new();

@@ -1,12 +1,24 @@
-div.cr-anyof-item
-
-    div.cr-item-controls.btn-group
+div
+    div.cr-anyof-item-group
+        div.cr-item-controls.btn-group
+            button.btn.btn-default.btn-xs(ng-click='moveUp()')
+                span.glyphicon.glyphicon-arrow-up
+            button.btn.btn-default.btn-xs(ng-click='moveDown()')
+                span.glyphicon.glyphicon-arrow-down  
+            button.btn.btn-danger.btn-xs(ng-click='remove()')
+                span.glyphicon.glyphicon-minus
+            
+        div.cr-item-body
         
-        button.btn.btn-sm(ng-click='moveUp()')
-            span.glyphicon.glyphicon-arrow-up
+    div.cr-item-footer
+      
+        div.btn-group
+        
+            button.btn.btn-default.btn-xs.dropdown-toggle(data-toggle='dropdown', href='#')
+                span.glyphicon.glyphicon-plus
+                span.caret
             
-        button.btn.btn-sm(ng-click='moveDown()')
-            span.glyphicon.glyphicon-arrow-down
+            ul.dropdown-menu(role='menu')
+                li(ng-repeat='schema in schemas')
+                    a(ng-click='addItem(schema)') {{schema.name}}
             
-        button.btn.btn-sm.btn-danger(ng-click='remove()')
-            span.glyphicon.glyphicon-remove-circle

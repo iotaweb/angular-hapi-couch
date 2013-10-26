@@ -15,7 +15,10 @@
       replace: true,
       templateUrl: 'cr-markdown.html',
 
-      link: crFieldLink(function(scope, elem, attrs) {
+      link: crFieldLink({
+        showLabel: true,
+        showBorder: true
+      }, function(scope, elem, attrs) {
 
         var validation = crValidation(scope);
         validation.addConstraint(

@@ -23,7 +23,7 @@
       link: function(scope, elem, attrs) {
         var defaults = {
           showLabel: true,
-          indentProperties: false
+          indent: false
         };
         scope.options = crCommon.merge(defaults, crOptions.parse(attrs.options));
 
@@ -51,7 +51,7 @@
             '<a href="#' + id + '">' + crBuild.getModelTitle(subSchema, key) + '</a></li>';
 
           contentTmpl += '<div' +
-            ' ng-class="{ \'cr-indent\': options.indentProperties }"' +
+            ' ng-class="{ \'cr-indent\': options.indent }"' +
             ' class="tab-pane' + (isFirst ? ' active' : '') + '"' +
             ' id="' + id + '">';
 

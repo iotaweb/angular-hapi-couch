@@ -3,12 +3,13 @@
   var module = angular.module('cores.directives');
 
 
-  module.directive('crArrayItem', function($compile, crBuild) {
+  module.directive('crArrayItem', function($compile, crCommon, crBuild) {
     return {
       scope: {
         model: '=',
         schema: '=',
-        path: '@'
+        path: '@',
+        options: '=?'
       },
 
       replace: true,
@@ -19,17 +20,17 @@
       link: function(scope, elem, attrs) {
 
         var tmpl = crBuild.buildTemplate(scope.schema, scope.model, 'schema', 'model', scope.path,
-                                         { showLabel: false, indentProperties: false });
+                                         { showLabel: false, indent: false });
 
         var link = $compile(tmpl);
         var e = link(scope);
-        elem.append(e);
+        elem.find('.cr-item-body').html(e);
       }
     };
   });
 
 
-  module.directive('crArray', function(crSchema, crFieldLink) {
+  module.directive('crArray', function(crCommon, crSchema, crFieldLink) {
     return {
       scope: {
         model: '=',
@@ -43,7 +44,8 @@
 
       controller: 'crArrayCtrl',
 
-      link: crFieldLink(function(scope, elem, attrs) {
+      link: crFieldLink({ showLabel: true, indent: true }, function(scope, elem, attrs) {
+
         // ngrepeat can only bind to references when it comes to form fields
         // thats why we can only work with items of type object not primitives
         // this may change in a feature release
