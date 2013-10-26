@@ -4,20 +4,20 @@ This is an example application that uses Angular.js, the node.js based web and A
 
 I created this application to learn how the following components work together:
 
-1. [Angular.js](http://angularjs.org/) - front-end framework (1.2.0-rc.3)
-2. [Bootstrap](http://getbootstrap.com/) - css & layouts (3.0.0)
-3. [Hapi.js](http://spumko.github.io/) - node.js based API and web server (1.14.0)
+1. [Angular.js](http://angularjs.org/) - front-end framework (v1.2.0-rc.3)
+2. [Bootstrap](http://getbootstrap.com/) - css & layouts (v3.0.0)
+3. [Hapi.js](http://spumko.github.io/) - node.js based API and web server (v1.14.0)
 4. [CouchDB](http://couchdb.apache.org/) - storage 
 
 
 In terms of connecting all this together, [Till Reitemeyer] (https://github.com/skoni) has already provided the beginnings of a workable framework, including:
 
-1. [cores-server] (https://github.com/skoni/cores-server) - bootstrap for hapi server (0.2.2)
-2. [cores-ng] (https://github.com/skoni/cores-ng) - angular.js cores layer (based on 0.4.5)
-3. [cores-hapi] (https://github.com/skoni/cores-hapi) - hapi cores resource api (0.4.4)
-4. [cores] (https://github.com/skoni/cores) - couchdb resource layer with validation (0.4.2)
+1. [cores-server] (https://github.com/skoni/cores-server) - bootstrap for hapi server (v0.2.2)
+2. [cores-ng] (https://github.com/skoni/cores-ng) - angular.js cores layer (based on v0.4.5)
+3. [cores-hapi] (https://github.com/skoni/cores-hapi) - hapi cores resource api (v0.4.4)
+4. [cores] (https://github.com/skoni/cores) - couchdb resource layer with validation (v0.4.2)
 
-Note: the above libraries are still under development (particularly ng-cores) and there is documentation yet.
+Note: the above libraries are still under development (particularly ng-cores) and there is no documentation yet.
 
 ## Prerequisites
 
@@ -71,10 +71,31 @@ Browse to: [http://localhost:8080] (http://localhost:8080)
 
 You can add a set of 20 test users from the home page by clicking the **Create Users** button. Note: this option will only be available if there are no users in the database.
 
-The API documentation is here:
+## Screens
 
-[http://localhost:8080/api] (http://localhost:8080/api)
+Screen captures of a few pages are available here:
 
+ - [Screens] (https://github.com/iotaweb/angular-hapi-couch/wiki/Screens)
+
+## API Endpoints
+
+
+Below is a list of API endpoints:
+```
+GET       /api                        Root
+GET       /api/_index                 Models
+     
+GET       /api/users/_schema          User schema
+GET       /api/users/_views/all       View all users
+GET       /api/users/_views/names     View user names
+GET       /api/users                  List users
+     
+POST      /api/users                  Create user
+GET       /api/users/:id              Read user
+PUT       /api/users/:id              Update user
+DELETE    /api/users/:id              Delete User
+```
+The API endpoints are also listed here: [http://localhost:8080/api] (http://localhost:8080/api)
 ## Watch
 
 In development you can run the following to watch for changes to jade, stylus and templates:
@@ -86,12 +107,6 @@ grunt watch
 Note: you will still need to stop and start your web server to see these changes in the browser. It just saves you having to manually recompile everything with `grunt` when your code changes.
 
 TODO: setup watch on Hapi server.
-
-## Screens
-
-Screen captures of a few pages are available here:
-
- - [Screens] (https://github.com/iotaweb/angular-hapi-couch/wiki/Screens)
 
 ## Known Issues
 
