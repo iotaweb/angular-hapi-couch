@@ -38,8 +38,6 @@ Note: you may need to run `sudo npm install`.
 bower install
 ```
 
-When prompted for the Bootstrap version, choose 2) ~3.x.x
-
 ## Database Setup
 
 Create the database:

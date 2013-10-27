@@ -55,8 +55,7 @@ angular.module('myApp.controllers', [])
         ];        
         $scope.views = [];
         $scope.modelOptions = {};
-        $scope.listOptions = {};
-        $scope.limit = 1;                                    
+        $scope.listOptions = {};                                   
 
         crResources
             .get($scope.type)
