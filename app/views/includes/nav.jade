@@ -6,11 +6,11 @@ div.navbar.navbar-default(role='navigation')
             span.icon-bar
             span.icon-bar
             span.icon-bar
-        a.navbar-brand(href='/') Angular Hapi Couch
+        a.navbar-brand(href='/', sitename)
 
     div.collapse.navbar-collapse
-        ul.nav.navbar-nav
-            li
-                a(href='/api') API
-            li
+        ul.nav.navbar-nav(bs-navbar)
+            li(data-match-route='/')
+                a(href='/') Home                
+            li(data-match-route='/users')
                 a(href='/users') Users

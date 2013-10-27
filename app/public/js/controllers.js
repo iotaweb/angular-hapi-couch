@@ -14,7 +14,9 @@ angular.module('myApp.controllers', [])
                 
             crResources
                 .get($scope.type)
-                .view('names', { limit: 50 })
+                .view('names', {
+                    limit: 50
+                })
                 .then(
                     function success(result) {
             
@@ -25,9 +27,14 @@ angular.module('myApp.controllers', [])
                             $scope.users = true;
                             $scope.names = result.rows;             
                         }           
-                    }
-                );            
-        }                      
+                    },
+                    function(error) {
+        
+                        // api server unavailable
+                        console.log(error);
+                    }                    
+                );
+        }            
     })
     
     
@@ -63,7 +70,12 @@ angular.module('myApp.controllers', [])
             .then(
                 function (doc) {             
                     $scope.user = doc;
-                }        
+                },
+                function(error) {
+    
+                    // api server unavailable
+                    console.log(error);
+                }                          
             );                                  
     })
     

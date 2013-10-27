@@ -2,6 +2,12 @@
 
 angular.module('myApp.services', [])
 
+	//! values
+	// Set values for use in page title
+
+	.value('appName', 'Angular Hapi Couch')
+	.value('separator', ' - ')
+
     //! responseHandler
     .factory('responseHandler', function ($q, $location) {
         
