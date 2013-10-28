@@ -202,17 +202,16 @@ module.exports = function setupServer(callback) {
         db: {
             name: dbName
         },
-        resourcesDir: path.join(__dirname, 'models')
-    };
-    
-    options.api = {
-        path: '/api',
-        auth: false
+        resourcesDir: path.join(__dirname, 'models'),
+        api: {
+            path: '/api',
+            auth: false            
+        }
     };
   
     cs.createServer(options.cores).then(function(server) {
 
-        return cs.createApi(server, options.api);
+        return cs.createApi(server, options.cores.api);
     }).then(function(server) {
             
         return init(server);
